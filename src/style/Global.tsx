@@ -22,7 +22,20 @@ const GlobalStyle = createGlobalStyle`
       height: auto;
       max-width: 100%;
     }
+    
   }
-`
-
+  input{
+    margin-right:20px;
+  }
+  `
+  // button{
+  //   border-radius : 0px 20px 0 20px !important;
+  //   box-shadow:2px 2px 10px rgba(0,0,0,0.5) !important;
+  // }
+  // a{
+  //   padding:2px;
+  //   border-radius : 0px 10px 0 10px !important;
+  //   box-shadow:2px 2px 10px rgba(0,0,0,0.5) !important;
+  // }
+  
 export default GlobalStyle
