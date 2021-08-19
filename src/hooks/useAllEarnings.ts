@@ -5,10 +5,12 @@ import { getMasterChefAddress } from 'utils/addressHelpers'
 import masterChefABI from 'config/abi/masterchef.json'
 import { farmsConfig } from 'config/constants'
 import useRefresh from './useRefresh'
+import useUserAccount from './useUserAccount'
 
 const useAllEarnings = () => {
   const [balances, setBalance] = useState([])
-  const { account }: { account: string } = useWallet()
+  // const { account }: { account: string } = useWallet()
+  const { account } = useUserAccount()
   const { fastRefresh } = useRefresh()
 
   useEffect(() => {

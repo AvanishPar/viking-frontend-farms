@@ -10,14 +10,15 @@ interface TokenInputProps extends InputProps {
   symbol: string
   onSelectMax?: () => void
   depositFeeBP?: number
+  userAccountBalance?: number
 }
 
-const TokenInput: React.FC<TokenInputProps> = ({ max, symbol, onChange, onSelectMax, value, depositFeeBP = 0 }) => {
+const TokenInput: React.FC<TokenInputProps> = ({ userAccountBalance, max, symbol, onChange, onSelectMax, value, depositFeeBP = 0 }) => {
   const TranslateString = useI18n()
   return (
     <StyledTokenInput>
       <StyledMaxText>
-        {max.toLocaleString()} {symbol} {TranslateString(526, 'Available')}
+        {userAccountBalance} {symbol} {TranslateString(526, 'Available')}
       </StyledMaxText>
       <Input
         endAdornment={
@@ -38,7 +39,7 @@ const TokenInput: React.FC<TokenInputProps> = ({ max, symbol, onChange, onSelect
       {
         depositFeeBP > 0 ?
           <StyledMaxText>
-            {TranslateString(10001, 'Deposit Fee')}: {new BigNumber(value || 0).times(depositFeeBP/10000).toString()} {symbol}
+            {TranslateString(10001, 'Deposit Fee')}: {new BigNumber(value || 0).times(depositFeeBP / 10000).toString()} {symbol}
           </StyledMaxText>
           :
           null

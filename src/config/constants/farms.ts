@@ -6,10 +6,8 @@ const farms: FarmConfig[] = [
     pid: 0,
     risk: 5,
     lpSymbol: 'MANA Stake',
-    lpAddresses: {
-      97: '',
-      56: '0x9b989a7b8963f4b08ec094710e2966fb3c7f6c43',
-    },
+    lpAddresses: '0x3e23cf68E78291646B9297AF451896A508DC7dE9',
+
     tokenSymbol: 'VIKING',
     tokenAddresses: {
       97: '',
@@ -23,10 +21,7 @@ const farms: FarmConfig[] = [
     risk: 3,
     isTokenOnly: true,
     lpSymbol: 'BSCX',
-    lpAddresses: {
-      97: '',
-      56: '0xa32a983a64ce21834221aa0ad1f1533907553136', // BSCX-BUSD LP
-    },
+    lpAddresses: '0x3e23cf68E78291646B9297AF451896A508DC7dE9',
     tokenSymbol: 'BSCX',
     tokenAddresses: {
       97: '',

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useWallet } from '@binance-chain/bsc-use-wallet'
 import { allLanguages } from 'config/localisation/languageCodes'
+import useUserAccount from 'hooks/useUserAccount'
 import { LanguageContext } from 'contexts/Localisation/languageContext'
 import useTheme from 'hooks/useTheme'
 import { usePriceCakeBusd } from 'state/hooks'
@@ -8,7 +9,8 @@ import { Menu as UikitMenu } from 'components/CustomMenu';
 import config from './config'
 
 const Menu = (props) => {
-  const { account, connect, reset } = useWallet()
+  const { account } = useUserAccount()
+  const { connect, reset } = useWallet()
   const { selectedLanguage, setSelectedLanguage } = useContext(LanguageContext)
   const { isDark, toggleTheme } = useTheme()
   const cakePriceUsd = usePriceCakeBusd()

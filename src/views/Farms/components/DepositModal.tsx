@@ -5,6 +5,7 @@ import ModalActions from 'components/ModalActions'
 import TokenInput from 'components/TokenInput'
 import useI18n from 'hooks/useI18n'
 import { getFullDisplayBalance } from 'utils/formatBalance'
+import { getLpPairAmount, stake } from 'utils/farmHarvest'
 
 interface DepositModalProps {
   max: BigNumber
@@ -12,16 +13,28 @@ interface DepositModalProps {
   onDismiss?: () => void
   tokenName?: string
   depositFeeBP?: number
+  farm?: any
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '' , depositFeeBP = 0}) => {
+const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDismiss, tokenName = '', depositFeeBP = 0 }) => {
   const [val, setVal] = useState('')
+  const [userAccountBalance, setUserAccountBalance] = useState<number>(0);
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
+
+  React.useEffect(() => {
+    const getUserBalance = async () => {
+      const userBalance: any = await getLpPairAmount(farm.lpAddresses)
+      setUserAccountBalance(userBalance)
+    }
+    getUserBalance()
+
+
+  }, [farm.lpAddresses])
+
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max)
   }, [max])
-
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       setVal(e.currentTarget.value)
@@ -36,6 +49,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   return (
     <Modal title={`${TranslateString(316, 'Deposit')} ${tokenName} Tokens`} onDismiss={onDismiss}>
       <TokenInput
+        userAccountBalance={userAccountBalance}
         value={val}
         onSelectMax={handleSelectMax}
         onChange={handleChange}
@@ -51,7 +65,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
           disabled={pendingTx}
           onClick={async () => {
             setPendingTx(true)
-            await onConfirm(val)
+            await stake(farm.pid, val)
             setPendingTx(false)
             onDismiss()
           }}

@@ -12,7 +12,7 @@ import store from 'state'
 
 const Providers: React.FC = ({ children }) => {
   const rpcUrl = getRpcUrl()
-  const chainId = 42
+  const chainId = 56
   return (
     <Provider store={store}>
       <ThemeContextProvider>

@@ -81,7 +81,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
         />
       ))
     },
-    [bnbPrice, account, cakePrice, ethereum],
+    [cakePrice, bnbPrice, ethereum, account],
   )
 
   return (

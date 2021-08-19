@@ -27,17 +27,17 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ pid }) => {
   const { onStake } = useStake(pid)
   const [earningBalance, setEarningBalance] = React.useState<number>(0)
 
-  React.useEffect(() => {
-    const getEarningBalance = async () => {
-      const value: any = await getPendingVEMP(pid)
-      setEarningBalance(value)
-    }
-    getEarningBalance()
-    const id = setInterval(getEarningBalance, 1000);
-    return () => {
-      clearInterval(id);
-    };
-  }, [pid])
+  // React.useEffect(() => {
+  //   const getEarningBalance = async () => {
+  //     const value: any = await getPendingVEMP(pid)
+  //     setEarningBalance(value)
+  //   }
+  //   getEarningBalance()
+  //   const id = setInterval(getEarningBalance, 1000);
+  //   return () => {
+  //     clearInterval(id);
+  //   };
+  // }, [pid])
 
   // const rawEarningsBalance = getBalanceNumber(earnings)
   // const displayBalance = rawEarningsBalance.toLocaleString()

@@ -2,9 +2,11 @@ import { useCallback, useState, useEffect } from 'react'
 import { useWallet } from '@binance-chain/bsc-use-wallet'
 import { useLottery, useLotteryTicket } from 'hooks/useContract'
 import { multiClaim, getMax, multiBuy } from '../utils/lotteryUtils'
+import useUserAccount from './useUserAccount'
 
 export const useMultiClaimLottery = () => {
-  const { account } = useWallet()
+  // const { account } = useWallet()
+  const { account } = useUserAccount()
   const lotteryContract = useLottery()
   const lotteryTicketContract = useLotteryTicket()
 
@@ -21,7 +23,8 @@ export const useMultiClaimLottery = () => {
 }
 
 export const useMultiBuyLottery = () => {
-  const { account } = useWallet()
+  // const { account } = useWallet()
+  const { account } = useUserAccount()
   const lotteryContract = useLottery()
 
   const handleBuy = useCallback(

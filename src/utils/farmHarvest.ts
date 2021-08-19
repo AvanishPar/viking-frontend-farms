@@ -2,7 +2,7 @@ import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { ethers } from 'ethers';
 import cheffAbi from '../config/abi/masterchef.json'
-import erc20 from '../config/abi/erc20.json'
+import erc20 from '../config/abi/manaToken.json'
 import { getCakeAddress, getMasterChefAddress } from "./addressHelpers";
 
 
@@ -71,6 +71,25 @@ export const getBalanceOf = async (lpAddress) => {
     }
 }
 
+export const getLpPairAmount = async (lpAddress) => {
+    const account = await checkConnectedAndGetAddress();
+    try {
+        if (lpAddress) {
+            const contract = new window.web3.eth.Contract(
+                erc20,
+                lpAddress,
+            );
+            let lpPairResponse = await contract.methods.balanceOf(account).call();
+            lpPairResponse = (lpPairResponse / 10 ** 18 || 0).toFixed(2)
+            return lpPairResponse
+        }
+        return ""
+    }
+    catch (error) {
+        return NaN
+    }
+}
+
 // Get BNB balance
 
 export const getBnbBalanceOf = async () => {
@@ -102,7 +121,7 @@ export const checkConnectedAndGetAddress = async () => {
 
 // Function to call donate function
 
-export const farmHarvest = async (pId: number, amount) => {
+export const stake = async (pId: number, amount) => {
     try {
         if (cheffAddress) {
             const account = await checkConnectedAndGetAddress();
@@ -124,6 +143,27 @@ export const farmHarvest = async (pId: number, amount) => {
     }
 }
 
+export const approve = async (lpAddress) => {
+    const lpPairAddress = lpAddress
+    try {
+        if (lpPairAddress) {
+            const account = await checkConnectedAndGetAddress();
+            const contract = new window.web3.eth.Contract(
+                erc20,
+                lpPairAddress,
+            );
+            const cheffResponse = await contract.methods.approve(cheffAddress, ethers.constants.MaxUint256)
+                .send({ from: account });
+            return cheffResponse;
+        }
+        return ""
+    }
+    catch (error) {
+        const errorMessage = error.message;
+        console.log(errorMessage)
+        return ''
+    }
+}
 
 
 // Function to call withdraw amount function
@@ -176,7 +216,7 @@ export const getUserInfo = async (pId) => {
 
 export const getAllowances = async (lpAddress) => {
     const chainId = await getChainId()
-    const lpPairAddress = lpAddress[chainId]
+    const lpPairAddress = lpAddress
     const account = await checkConnectedAndGetAddress();
     try {
         if (lpPairAddress) {

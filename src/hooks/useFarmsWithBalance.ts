@@ -7,6 +7,7 @@ import masterChefABI from 'config/abi/masterchef.json'
 import { farmsConfig } from 'config/constants'
 import { FarmConfig } from 'config/constants/types'
 import useRefresh from './useRefresh'
+import useUserAccount from './useUserAccount'
 
 export interface FarmWithBalance extends FarmConfig {
   balance: BigNumber
@@ -14,7 +15,8 @@ export interface FarmWithBalance extends FarmConfig {
 
 const useFarmsWithBalance = () => {
   const [farmsWithBalances, setFarmsWithBalances] = useState<FarmWithBalance[]>([])
-  const { account } = useWallet()
+  // const { account } = useWallet()
+  const { account } = useUserAccount()
   const { fastRefresh } = useRefresh()
 
   useEffect(() => {

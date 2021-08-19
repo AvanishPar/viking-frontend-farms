@@ -4,11 +4,13 @@ import { useWallet } from '@binance-chain/bsc-use-wallet'
 import { Contract } from 'web3-eth-contract'
 import { useCake, useLottery } from './useContract'
 import { getAllowance } from '../utils/erc20'
+import useUserAccount from './useUserAccount'
 
 // Retrieve lottery allowance
 export const useLotteryAllowance = () => {
   const [allowance, setAllowance] = useState(new BigNumber(0))
-  const { account }: { account: string } = useWallet()
+  // const { account }: { account: string } = useWallet()
+  const { account } = useUserAccount()
   const lotteryContract = useLottery()
   const cakeContract = useCake()
 

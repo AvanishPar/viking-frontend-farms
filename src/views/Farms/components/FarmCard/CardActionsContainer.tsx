@@ -4,11 +4,13 @@ import styled from 'styled-components'
 import { provider } from 'web3-core'
 import { getContract } from 'utils/erc20'
 import { Button, Flex, Text } from '@pancakeswap-libs/uikit'
+import { approve, getAllowances } from 'utils/farmHarvest'
 import { Farm } from 'state/types'
 import { useFarmFromPid, useFarmFromSymbol, useFarmUser } from 'state/hooks'
 import useI18n from 'hooks/useI18n'
 import UnlockButton from 'components/UnlockButton'
 import { useApprove } from 'hooks/useApprove'
+import useUserAccount from 'hooks/useUserAccount'
 import StakeAction from './StakeAction'
 import HarvestAction from './HarvestAction'
 
@@ -25,15 +27,27 @@ interface FarmCardActionsProps {
   account?: string
 }
 
-const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }) => {
+const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
+  const { account } = useUserAccount()
+
   const TranslateString = useI18n()
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { pid, lpAddresses, tokenAddresses, isTokenOnly, depositFeeBP } = useFarmFromPid(farm.pid)
   const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(pid)
   const lpAddress = lpAddresses[process.env.REACT_APP_CHAIN_ID]
   const tokenAddress = tokenAddresses[process.env.REACT_APP_CHAIN_ID];
+  const [approveAllowance, setApproveAllowance] = React.useState<number>(0)
+  const [failedAllowance, setFailedAllowance] = useState(false);
   const lpName = farm.lpSymbol.toUpperCase()
-  const isApproved = account && allowance && allowance.isGreaterThan(0)
+  const isApproved = approveAllowance > 1
+
+  React.useEffect(() => {
+    const onAllowance = async () => {
+      const isAllowance: any = await getAllowances(farm.lpAddresses)
+      setApproveAllowance(isAllowance)
+    }
+    onAllowance()
+  }, [farm.lpAddresses])
 
   const lpContract = useMemo(() => {
     if (isTokenOnly) {
@@ -47,16 +61,16 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true)
-      await onApprove()
+      await approve(lpAddresses)
       setRequestedApproval(false)
     } catch (e) {
       console.error(e)
     }
-  }, [onApprove])
+  }, [lpAddresses])
 
   const renderApprovalOrStakeButton = () => {
-    return !isApproved ? (
-      <StakeAction stakedBalance={stakedBalance} tokenBalance={tokenBalance} tokenName={lpName} pid={pid} depositFeeBP={depositFeeBP} />
+    return isApproved ? (
+      <StakeAction stakedBalance={stakedBalance} farm={farm} tokenBalance={tokenBalance} tokenName={lpName} pid={pid} depositFeeBP={depositFeeBP} />
     ) : (
       <Button mt="8px" fullWidth disabled={requestedApproval} onClick={handleApprove}>
         {TranslateString(999, 'Approve Contract')}

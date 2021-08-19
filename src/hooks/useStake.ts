@@ -4,10 +4,11 @@ import { useDispatch } from 'react-redux'
 import { fetchFarmUserDataAsync, updateUserStakedBalance, updateUserBalance } from 'state/actions'
 import { stake, sousStake, sousStakeBnb } from 'utils/callHelpers'
 import { useMasterchef, useSousChef } from './useContract'
+import useUserAccount from './useUserAccount'
 
 const useStake = (pid: number) => {
   const dispatch = useDispatch()
-  const { account } = useWallet()
+  const { account } = useUserAccount()
   const masterChefContract = useMasterchef()
 
   const handleStake = useCallback(
@@ -24,7 +25,7 @@ const useStake = (pid: number) => {
 
 export const useSousStake = (sousId, isUsingBnb = false) => {
   const dispatch = useDispatch()
-  const { account } = useWallet()
+  const { account } = useUserAccount()
   const masterChefContract = useMasterchef()
   const sousChefContract = useSousChef(sousId)
 

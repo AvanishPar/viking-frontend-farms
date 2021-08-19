@@ -42,7 +42,7 @@ export interface Address {
 export interface FarmConfig {
   pid: number
   lpSymbol: string
-  lpAddresses: Address
+  lpAddresses: string
   tokenSymbol: string
   tokenAddresses: Address
   quoteTokenSymbol: QuoteToken
