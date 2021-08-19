@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
+import { getPendingVEMP } from 'utils/farmHarvest'
 import { Button, Flex, Heading } from '@pancakeswap-libs/uikit'
 import useI18n from 'hooks/useI18n'
 import { useHarvest } from 'hooks/useHarvest'
@@ -19,36 +20,35 @@ const BalanceAndCompound = styled.div`
   flex-direction: column;
 `
 
-const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
+const HarvestAction: React.FC<FarmCardActionsProps> = ({ pid }) => {
   const TranslateString = useI18n()
   const [pendingTx, setPendingTx] = useState(false)
   const { onReward } = useHarvest(pid)
   const { onStake } = useStake(pid)
+  const [earningBalance, setEarningBalance] = React.useState<number>(0)
 
-  const rawEarningsBalance = getBalanceNumber(earnings)
-  const displayBalance = rawEarningsBalance.toLocaleString()
+  React.useEffect(() => {
+    const getEarningBalance = async () => {
+      const value: any = await getPendingVEMP(pid)
+      setEarningBalance(value)
+    }
+    getEarningBalance()
+    const id = setInterval(getEarningBalance, 1000);
+    return () => {
+      clearInterval(id);
+    };
+  }, [pid])
+
+  // const rawEarningsBalance = getBalanceNumber(earnings)
+  // const displayBalance = rawEarningsBalance.toLocaleString()
 
   return (
     <Flex mb='8px' justifyContent='space-between' alignItems='center'>
-      <Heading color={rawEarningsBalance === 0 ? 'textDisabled' : 'text'}>{displayBalance}</Heading>
+      <Heading color={earningBalance === 0 ? 'textDisabled' : 'text'}>{earningBalance}</Heading>
       <BalanceAndCompound>
-        {pid === 11 ?
-          <Button
-            disabled={rawEarningsBalance === 0 || pendingTx}
-            size='sm'
-            variant='secondary'
-            marginBottom='15px'
-            onClick={async () => {
-              setPendingTx(true)
-              await onStake(rawEarningsBalance.toString())
-              setPendingTx(false)
-            }}
-          >
-            {TranslateString(999, 'Compound')}
-          </Button>
-          : null}
+
         <Button
-          disabled={rawEarningsBalance === 0 || pendingTx}
+          disabled={earningBalance === 0 || pendingTx}
           onClick={async () => {
             setPendingTx(true)
             await onReward()

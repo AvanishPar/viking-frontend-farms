@@ -119,7 +119,6 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
   })
 
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses, risk } = farm
-
   return (
     <FCard>
       {farm.tokenSymbol === 'VIKING' && <StyledCardAccent />}
@@ -160,8 +159,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
       </Flex>
       <Flex justifyContent='space-between'>
         <Text style={{ fontSize: '24px' }}>{TranslateString(10001, 'Deposit Fee')}:</Text>
-        {/* <Text bold style={{ fontSize: '24px' }}>{(farm.depositFeeBP / 100)}%</Text> */}
-        <Text bold style={{ margin: 'auto 0' }}>400 MANA</Text>
+        <Text bold style={{ margin: 'auto 0' }}>{(farm.depositFeeBP)}MANA</Text>
       </Flex>
       <CardActionsContainer farm={farm} ethereum={ethereum} account={account} />
       <Divider />

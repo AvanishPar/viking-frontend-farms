@@ -36,7 +36,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
   const isApproved = account && allowance && allowance.isGreaterThan(0)
 
   const lpContract = useMemo(() => {
-    if(isTokenOnly){
+    if (isTokenOnly) {
       return getContract(ethereum as provider, tokenAddress);
     }
     return getContract(ethereum as provider, lpAddress);
@@ -55,7 +55,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
   }, [onApprove])
 
   const renderApprovalOrStakeButton = () => {
-    return isApproved ? (
+    return !isApproved ? (
       <StakeAction stakedBalance={stakedBalance} tokenBalance={tokenBalance} tokenName={lpName} pid={pid} depositFeeBP={depositFeeBP} />
     ) : (
       <Button mt="8px" fullWidth disabled={requestedApproval} onClick={handleApprove}>
@@ -68,7 +68,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account }
     <Action>
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
-          VIKING
+          MANA
         </Text>
         <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
           {TranslateString(999, 'Earned')}

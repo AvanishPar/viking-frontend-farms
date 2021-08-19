@@ -1,22 +1,21 @@
-import addresses from 'config/constants/contracts'
+import addresses from 'config/constants/addresses'
 
-const chainId = process.env.REACT_APP_CHAIN_ID
 
 export const getCakeAddress = () => {
-  return addresses.cake[chainId]
+  return addresses.cake
 }
 export const getMasterChefAddress = () => {
-  return addresses.masterChef[chainId]
+  return addresses.masterChef
 }
 export const getMulticallAddress = () => {
-  return addresses.mulltiCall[chainId]
+  return addresses.mulltiCall
 }
 export const getWbnbAddress = () => {
-  return addresses.wbnb[chainId]
+  return addresses.wbnb
 }
 export const getLotteryAddress = () => {
-  return addresses.lottery[chainId]
+  return addresses.lottery
 }
 export const getLotteryTicketAddress = () => {
-  return addresses.lotteryNFT[chainId]
+  return addresses.lotteryNFT
 }
