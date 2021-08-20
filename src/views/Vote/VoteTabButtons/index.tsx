@@ -1,24 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useRouteMatch, Link } from 'react-router-dom'
-import { ButtonMenu, ButtonMenuItem, Text, Toggle } from '@pancakeswap-libs/uikit'
+import { useRouteMatch, Link, } from 'react-router-dom'
+import { Button, Text, Toggle } from '@pancakeswap-libs/uikit'
 import useI18n from 'hooks/useI18n';
 
 const VoteTabButtons = () => {
   const { url, isExact } = useRouteMatch()
   const TranslateString = useI18n()
-
   return (
     <Wrapper>
-      <ButtonMenu activeIndex={isExact ||window.location.pathname === "/vote/community" ? 0 : 1} >
-        <ButtonMenuItem as={Link} to={`${url}`}>
+        <Button as={Link} to="/makeProposal" /* onClick={handleMakeProposal} */>
           {TranslateString(698, 'Make a Proposal')}
-        </ButtonMenuItem>
+        </Button>
         {/* <span style={{ padding: '20px' }} /> */}
-        <ButtonMenuItem as={Link} to={`${url}/history`}>
+        <Button as={Link} to="/history">
           {TranslateString(700, 'Proposal overview')}
-        </ButtonMenuItem>
-      </ButtonMenu>
+        </Button>
+     
     </Wrapper>
   )
 }

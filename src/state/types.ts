@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { FarmConfig, PoolConfig } from 'config/constants/types'
+import { FarmConfig, PoolConfig, VoteConfig } from 'config/constants/types'
 
 export interface Farm extends FarmConfig {
   tokenAmount?: BigNumber
@@ -8,6 +8,7 @@ export interface Farm extends FarmConfig {
   tokenPriceVsQuote?: BigNumber
   poolWeight?: number
   depositFeeBP?: number
+  earnAmountFarm?:number
   vikingPerBlock?: number
     userData?: {
     allowance: BigNumber
@@ -16,7 +17,22 @@ export interface Farm extends FarmConfig {
     earnings: BigNumber
   }
 }
-
+export interface Vote extends VoteConfig {
+  tokenAmount?: BigNumber
+  // quoteTokenAmount?: BigNumber
+  lpTotalInQuoteToken?: BigNumber
+  tokenPriceVsQuote?: BigNumber
+  poolWeight?: number
+  depositFeeBP?: number
+  earnAmountFarm?:number
+  vikingPerBlock?: number
+    userData?: {
+    allowance: BigNumber
+    tokenBalance: BigNumber
+    stakedBalance: BigNumber
+    earnings: BigNumber
+  }
+}
 export interface Pool extends PoolConfig {
   totalStaked?: BigNumber
   startBlock?: number
@@ -34,6 +50,9 @@ export interface Pool extends PoolConfig {
 export interface FarmsState {
   data: Farm[]
 }
+export interface VotesState {
+  data: Vote[]
+}
 
 export interface PoolsState {
   data: Pool[]
@@ -43,5 +62,6 @@ export interface PoolsState {
 
 export interface State {
   farms: FarmsState
+  votes: VotesState
   pools: PoolsState
 }

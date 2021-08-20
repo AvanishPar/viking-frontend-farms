@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { provider } from 'web3-core'
 import { getContract } from 'utils/erc20'
 import { Button, Flex, Text } from '@pancakeswap-libs/uikit'
-import { approve, getAllowances } from 'utils/farmHarvest'
+import { approve, getAllowances } from 'utils/VoteHarvest'
 import { Farm } from 'state/types'
 import { useFarmFromPid, useFarmFromSymbol, useFarmUser } from 'state/hooks'
 import useI18n from 'hooks/useI18n'
@@ -44,7 +44,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
   React.useEffect(() => {
     const onAllowance = async () => {
       const isAllowance: any = await getAllowances(farm.lpAddresses)
-
+   
       setApproveAllowance(isAllowance)
     }
     onAllowance()
@@ -83,13 +83,13 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
     <Action>
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
-          MANA
+          VEMP
         </Text>
         <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
           {TranslateString(999, 'Earned')}
         </Text>
       </Flex>
-      <HarvestAction earnings={farm?.earnAmountFarm} pid={pid} />
+      <HarvestAction earnings={earnings} pid={pid} />
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
           {lpName}

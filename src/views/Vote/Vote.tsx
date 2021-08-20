@@ -8,34 +8,34 @@ import { Image, Heading } from '@pancakeswap-libs/uikit'
 import { BLOCKS_PER_YEAR, CAKE_PER_BLOCK, CAKE_POOL_PID } from 'config'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
-import { useFarms, usePriceBnbBusd, usePriceCakeBusd } from 'state/hooks'
+import { useVotes, usePriceBnbBusd, usePriceCakeBusd } from 'state/hooks'
 import useRefresh from 'hooks/useRefresh'
-import { fetchFarmUserDataAsync } from 'state/actions'
+import { fetchVoteUserDataAsync } from 'state/actions'
 import { QuoteToken } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
-import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
-import FarmTabButtons from './components/FarmTabButtons'
-import Divider from './components/Divider'
+import VoteCard, { FarmWithStakedValue } from './VoteCard/VoteCard'
+// import FarmTabButtons from './components/FarmTabButtons'
+
 
 export interface FarmsProps {
   tokenMode?: boolean
 }
 
-const Farms: React.FC<FarmsProps> = (farmsProps) => {
+const Vote: React.FC<FarmsProps> = (farmsProps) => {
   const { path } = useRouteMatch()
   const TranslateString = useI18n()
-  const farmsLP = useFarms()
+  const farmsLP = useVotes()
   const cakePrice = usePriceCakeBusd()
   const bnbPrice = usePriceBnbBusd()
   const { account, ethereum }: { account: string; ethereum: provider } = useWallet()
   const { tokenMode } = farmsProps;
-
   const dispatch = useDispatch()
   const { fastRefresh } = useRefresh()
   useEffect(() => {
     if (account) {
      
-      dispatch(fetchFarmUserDataAsync(account))
+      dispatch(fetchVoteUserDataAsync(account))
+     
     }
   }, [account, dispatch, fastRefresh])
 
@@ -43,7 +43,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
 
   const activeFarms = farmsLP.filter((farm) => !!farm.isTokenOnly === !!tokenMode && farm.multiplier !== '0X')
   const inactiveFarms = farmsLP.filter((farm) => !!farm.isTokenOnly === !!tokenMode && farm.multiplier === '0X')
-
+ 
   // const stakedOnlyFarms = activeFarms.filter(
   //   (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
   // )
@@ -51,8 +51,9 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
 
 
   const farmsList = useCallback(
-    (farmsToDisplay, removed: boolean) => {
-      const farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map((farm) => {
+    (farmsDisplay, removed: boolean) => {
+     
+      const farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsDisplay.map((farm) => {
         const cakeRewardPerBlock = new BigNumber(farm.vikingPerBlock || 1).times(new BigNumber(farm.poolWeight)).div(new BigNumber(10).pow(18))
         const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
 
@@ -71,7 +72,7 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
         return { ...farm, apy }
       })
       return farmsToDisplayWithAPY.map((farm) => (
-        <FarmCard
+        <VoteCard
           key={farm.pid}
           farm={farm}
           removed={removed}
@@ -87,17 +88,8 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
 
   return (
     <Page>
-      <Heading as="h1" size="lg" color="primary" mb="50px" style={{ textAlign: 'center' }}>
-
-        {TranslateString(10002, 'Stake tokens to earn EGG')}
-
-      </Heading>
-      {/* <Heading as="h2" color="secondary" mb="50px" style={{ textAlign: 'center' }}>
-        {TranslateString(10000, 'Deposit Fee will be used to buyback EGG')}
-      </Heading> */}
-      {/* <FarmTabButtons stakedOnly={stakedOnly} setStakedOnly={setStakedOnly} /> */}
-      <div>
-        <Divider />
+     
+    
         <FlexLayout>
           <Route exact path={`${path}`}>
             {/* {stakedOnly ? farmsList(stakedOnlyFarms, false) : farmsList(farmsLP, false)} */}
@@ -107,10 +99,9 @@ const Farms: React.FC<FarmsProps> = (farmsProps) => {
             {farmsList(inactiveFarms, true)}
           </Route>
         </FlexLayout>
-      </div>
-      {/* <Image src="/images/egg/8.png" alt="illustration" width={1352} height={587} responsive /> */}
+      
     </Page>
   )
 }
 
-export default Farms
+export default Vote

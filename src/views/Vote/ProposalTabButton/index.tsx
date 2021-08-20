@@ -12,7 +12,7 @@ const ProposalTabButton = () => {
 
   return (
     <Wrapper>
-      <ButtonMenu activeIndex={isExact || window.location.pathname === "/vote/history" ? 0 : 1} >
+      <ButtonMenu activeIndex={isExact ? 0 : 1} >
         <ButtonMenuItem as={Link} to={`${url}`} >
         {console.log(window.location.pathname)}
           Vote Now

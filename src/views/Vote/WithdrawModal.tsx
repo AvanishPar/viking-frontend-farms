@@ -5,36 +5,22 @@ import ModalActions from 'components/ModalActions'
 import TokenInput from 'components/TokenInput'
 import useI18n from 'hooks/useI18n'
 import { getFullDisplayBalance } from 'utils/formatBalance'
-import { getLpPairAmount, stake } from 'utils/farmHarvest'
 
-interface DepositModalProps {
+interface WithdrawModalProps {
   max: BigNumber
   onConfirm: (amount: string) => void
   onDismiss?: () => void
   tokenName?: string
-  depositFeeBP?: number
-  farm?: any
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDismiss, tokenName = '', depositFeeBP = 0 }) => {
+const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max, tokenName = '' }) => {
   const [val, setVal] = useState('')
-  const [userAccountBalance, setUserAccountBalance] = useState<number>(0);
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
-
-  React.useEffect(() => {
-    const getUserBalance = async () => {
-      const userBalance: any = await getLpPairAmount(farm.lpAddresses)
-      setUserAccountBalance(userBalance)
-    }
-    getUserBalance()
-
-
-  }, [farm.lpAddresses])
-
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max)
   }, [max])
+
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       setVal(e.currentTarget.value)
@@ -43,19 +29,17 @@ const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDis
   )
 
   const handleSelectMax = useCallback(() => {
-    setVal(userAccountBalance.toString())
-  }, [userAccountBalance])
+    setVal(fullBalance)
+  }, [fullBalance, setVal])
 
   return (
-    <Modal title={`${TranslateString(316, 'Deposit')} ${tokenName} Tokens`} onDismiss={onDismiss}>
+    <Modal title={`Withdraw ${tokenName}`} onDismiss={onDismiss}>
       <TokenInput
-        userAccountBalance={userAccountBalance}
-        value={val}
         onSelectMax={handleSelectMax}
         onChange={handleChange}
+        value={val}
         max={fullBalance}
         symbol={tokenName}
-        depositFeeBP={depositFeeBP}
       />
       <ModalActions>
         <Button variant="secondary" onClick={onDismiss}>
@@ -65,7 +49,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDis
           disabled={pendingTx}
           onClick={async () => {
             setPendingTx(true)
-            await stake(farm.pid, val)
+            await onConfirm(val)
             setPendingTx(false)
             onDismiss()
           }}
@@ -77,4 +61,4 @@ const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDis
   )
 }
 
-export default DepositModal
+export default WithdrawModal

@@ -57,7 +57,24 @@ export interface FarmConfig {
     endBlock: number
   }
 }
-
+export interface VoteConfig {
+  pid: number
+  lpSymbol: string
+  lpAddresses: string
+  tokenSymbol: string
+  tokenAddresses: Address
+  quoteTokenSymbol: QuoteToken
+  quoteTokenAdresses: Address
+  multiplier?: string
+  isTokenOnly?: boolean
+  isCommunity?: boolean
+  risk: number
+  dual?: {
+    rewardPerBlock: number
+    earnLabel: string
+    endBlock: number
+  }
+}
 export interface PoolConfig {
   sousId: number
   image?: string

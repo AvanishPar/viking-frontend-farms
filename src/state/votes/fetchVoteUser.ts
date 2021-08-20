@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import erc20ABI from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
 import multicall from 'utils/multicall'
-import farmsConfig from 'config/constants/farms'
+import votesConfig from 'config/constants/votes'
 import { getMasterChefAddress } from 'utils/addressHelpers'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
@@ -10,7 +10,7 @@ const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 export const fetchFarmUserAllowances = async (account: string) => {
   const masterChefAdress = getMasterChefAddress()
 
-  const calls = farmsConfig.map((farm) => {
+  const calls = votesConfig.map((farm) => {
     const lpContractAddress = farm.isTokenOnly ? farm.tokenAddresses[CHAIN_ID] : farm.lpAddresses[CHAIN_ID]
     return { address: lpContractAddress, name: 'allowance', params: [account, masterChefAdress] }
   })
@@ -23,7 +23,7 @@ export const fetchFarmUserAllowances = async (account: string) => {
 }
 
 export const fetchFarmUserTokenBalances = async (account: string) => {
-  const calls = farmsConfig.map((farm) => {
+  const calls = votesConfig.map((farm) => {
     const lpContractAddress = farm.isTokenOnly ? farm.tokenAddresses[CHAIN_ID] : farm.lpAddresses[CHAIN_ID]
     return {
       address: lpContractAddress,
@@ -42,7 +42,7 @@ export const fetchFarmUserTokenBalances = async (account: string) => {
 export const fetchFarmUserStakedBalances = async (account: string) => {
   const masterChefAdress = getMasterChefAddress()
 
-  const calls = farmsConfig.map((farm) => {
+  const calls = votesConfig.map((farm) => {
     return {
       address: masterChefAdress,
       name: 'userInfo',
@@ -60,7 +60,7 @@ export const fetchFarmUserStakedBalances = async (account: string) => {
 export const fetchFarmUserEarnings = async (account: string) => {
   const masterChefAdress = getMasterChefAddress()
 
-  const calls = farmsConfig.map((farm) => {
+  const calls = votesConfig.map((farm) => {
     return {
       address: masterChefAdress,
       name: 'pendingVEMP',

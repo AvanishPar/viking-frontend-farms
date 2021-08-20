@@ -1,22 +1,22 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState,useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import { getCakeAddress } from 'utils/addressHelpers'
+import { getVempAddress} from 'utils/addressHelpers'
 import styled, { keyframes } from 'styled-components'
 import { Flex, Text, Skeleton } from '@pancakeswap-libs/uikit'
 import { communityFarms } from 'config/constants'
-import { Farm } from 'state/types'
+import { Vote } from 'state/types'
 import { provider } from 'web3-core'
 import useI18n from 'hooks/useI18n'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
 import { QuoteToken } from 'config/constants/types'
 import useTokenBalance from 'hooks/useTokenBalance'
 import { getBalanceNumber } from 'utils/formatBalance'
-import DetailsSection from './DetailsSection'
 import CardHeading from './CardHeading'
 import CardActionsContainer from './CardActionsContainer'
 import ApyButton from './ApyButton'
+import DetailsSection from './DetailsSection'
 
-export interface FarmWithStakedValue extends Farm {
+export interface FarmWithStakedValue extends Vote {
   apy?: BigNumber
 }
 
@@ -91,12 +91,11 @@ interface FarmCardProps {
   account?: string
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethereum, account }) => {
+const VoteCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethereum, account }) => {
   const TranslateString = useI18n()
-
+console.log(farm)
   const [showExpandableSection, setShowExpandableSection] = useState(false)
   const farmImage = farm.isTokenOnly ? farm.tokenSymbol.toLowerCase() : `${farm.tokenSymbol.toLowerCase()}-${farm.quoteTokenSymbol.toLowerCase()}`
-  const balance = getBalanceNumber(useTokenBalance(getCakeAddress()))
 
   const totalValue: BigNumber = useMemo(() => {
     if (!farm.lpTotalInQuoteToken) {
@@ -116,12 +115,12 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
     : '-'
 
   const lpLabel = farm.lpSymbol
-  const depositFeeBP = farm.depositFeeBP
-
+  const earnLabel = farm.earnAmountFarm
   const farmAPY = farm.apy && farm.apy.times(new BigNumber(100)).toNumber().toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })
+
 
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses, risk } = farm
   return (
@@ -160,11 +159,11 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
       )}
       <Flex justifyContent='space-between'>
         <Text>{TranslateString(318, 'Earn')}:</Text>
-        <Text bold>VEMP</Text>
+        <Text bold>xVEMP</Text>
       </Flex>
       <Flex justifyContent='space-between'>
-        <Text style={{ fontSize: '24px' }}>{TranslateString(10001, 'MANA')}:</Text>
-        <Text bold style={{ margin: 'auto 0' }}>{depositFeeBP}MANA</Text>
+        <Text style={{ fontSize: '24px' }}>{TranslateString(10004, 'VEMP')}:</Text>
+        <Text bold style={{ margin: 'auto 0' }}>{earnLabel}VEMP</Text>
       </Flex>
       <CardActionsContainer farm={farm} ethereum={ethereum} account={account} />
       <Divider />
@@ -193,4 +192,4 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
   )
 }
 
-export default FarmCard
+export default VoteCard

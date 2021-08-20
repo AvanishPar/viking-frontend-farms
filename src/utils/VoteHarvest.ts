@@ -1,10 +1,11 @@
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { ethers } from 'ethers';
-import cheffAbi from '../config/abi/masterchef.json'
+import cheffAbi from '../config/abi/masterchefVemp.json'
 import erc20 from '../config/abi/manaToken.json'
 import erc20Abi from '../config/abi/erc20.json'
-import { getCakeAddress, getMasterChefAddress,getFarmAddress } from "./addressHelpers";
+import cheffAbifarm from '../config/abi/masterchef.json'
+import { getCakeAddress, getMasterChefAddressVemp,getMasterChefAddress, getVempAddress } from "./addressHelpers";
 
 
 
@@ -13,9 +14,9 @@ window.web3 = new Web3(window.ethereum);
 // const cheffAddress = Address.getCheffAddress
 // const tokenAddress = Address.getTokenAddress
 
-const cheffAddress = getMasterChefAddress()
-
-const chefffarm = getFarmAddress()
+const cheffAddressfarm = getMasterChefAddress()
+const cheffAddress = getMasterChefAddressVemp()
+const cheffvemp= getVempAddress()
 
 export const fetchAccounts = () => {
     return new Promise((resolve, reject) => {
@@ -123,7 +124,7 @@ export const checkConnectedAndGetAddress = async () => {
 // Function to call donate function
 
 export const stake = async (pId: number, amount) => {
-    console.log("fastack")
+    console.log("Vstack")
     try {
         if (cheffAddress) {
             const account = await checkConnectedAndGetAddress();
@@ -146,7 +147,7 @@ export const stake = async (pId: number, amount) => {
 }
 
 export const approve = async (lpAddress) => {
-    console.log("fapprovel")
+    console.log("Vapprove")
     const lpPairAddress = lpAddress
     try {
         if (lpPairAddress) {
@@ -157,6 +158,7 @@ export const approve = async (lpAddress) => {
             );
             const cheffResponse = await contract.methods.approve(cheffAddress, ethers.constants.MaxUint256)
                 .send({ from: account });
+               
             return cheffResponse;
         }
         return ""
@@ -180,7 +182,7 @@ export const withdraw = async (pid, amount) => {
                 cheffAddress,
             );
             const reqAmount = new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
-           
+        
             const cheffResponse = await contract.methods.withdraw(pid, reqAmount)
                 .send({ from: account });
             return cheffResponse;
@@ -242,14 +244,16 @@ export const getPendingVEMP = async (pid) => {
     const account = await checkConnectedAndGetAddress();
     try {
         if (cheffAddress) {
+           
             const contract = new window.web3.eth.Contract(
                 cheffAbi,
                 cheffAddress,
             );
-         
+          
             let pendingEggsResponse = await contract.methods.pendingVEMP(pid, account).call();
+
             pendingEggsResponse = ((pendingEggsResponse / 10 ** 18) || 0)
-            
+          
             return pendingEggsResponse
 
         }
@@ -262,14 +266,15 @@ export const getPendingVEMP = async (pid) => {
 }
 
 // to get multiplier value
-
 export const getPoolInfo = async (pid) => {
     try {
         if (cheffAddress) {
+           
             const contract = new window.web3.eth.Contract(
                 cheffAbi,
                 cheffAddress,
             );
+          
             let poolInfo = await contract.methods.poolInfo(pid).call();
             poolInfo = (poolInfo.allocPoint) / 100;
            
@@ -281,21 +286,43 @@ export const getPoolInfo = async (pid) => {
         return NaN
     }
 }
+// export const getPoolInfo = async (pid) => {
+   
+//     try {
+//         if (cheffAddress) {
+//             console.log("wrked",pid,cheffAddress,cheffAbi)
+//             const contract = new window.web3.eth.Contract(
+//                 cheffAbi,
+//                 cheffAddress,
+//             );
+//             console.log("mult",contract)
+//             let poolInfo = await contract.methods.poolInfo(0).call();
+//             poolInfo = (poolInfo.allocPoint) / 100;
+
+//             console.log("multpool",poolInfo)
+//             return poolInfo;
+//         }
+//         return ""
+//     }
+//     catch (error) {
+//         return NaN
+//     }
+// }
 
 export const getBalanceVemp = async () => {
     const account = await checkConnectedAndGetAddress();
     try {
-        if (chefffarm) {
+        if (cheffvemp) {
         
             const contract = new window.web3.eth.Contract(
                 erc20Abi,
-                chefffarm,
+                cheffvemp,
             );
        
             let balanceof = await contract.methods.balanceOf(account).call();
            
             balanceof = Math.floor(balanceof/1000000000000000000)
-          
+ 
             return balanceof;
         }
         return ""
@@ -313,9 +340,9 @@ export const getDepositFees = async (pid) => {
                 cheffAddress,
             );
             const depositFee = await contract.methods.userInfo(pid,account).call();
-         
+     
             return depositFee.amount;
-            
+           
         }
         return ""
     }

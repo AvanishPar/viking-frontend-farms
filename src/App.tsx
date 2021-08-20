@@ -1,7 +1,6 @@
 import React, { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import { useWallet } from '@binance-chain/bsc-use-wallet'
-import useUserAccount from 'hooks/useUserAccount'
 import { ResetCSS } from '@pancakeswap-libs/uikit'
 import BigNumber from 'bignumber.js'
 import Vote from 'views/Vote'
@@ -15,6 +14,8 @@ import NftGlobalNotification from './views/Nft/components/NftGlobalNotification'
 // Only pool is included in the main bundle because of it's the most visited page'
 const Home = lazy(() => import('./views/Home'))
 const Farms = lazy(() => import('./views/Farms'))
+const MakeProposal = lazy(() => import('./views/MakeProposal'))
+const ProposalOverview = lazy(() => import('./views/Vote/ProposalOverview'))
 const NotFound = lazy(() => import('./views/NotFound'))
 // This config is required for number formating
 BigNumber.config({
@@ -23,8 +24,7 @@ BigNumber.config({
 })
 
 const App: React.FC = () => {
-  const { account } = useUserAccount()
-  const { connect } = useWallet()
+  const { account, connect } = useWallet()
   useEffect(() => {
     if (!account && window.localStorage.getItem('accountStatus')) {
       connect('injected')
@@ -46,8 +46,14 @@ const App: React.FC = () => {
             <Route path="/farms">
               <Farms />
             </Route>
-            <Route path="/vote">
+            <Route exact path="/vote">
               <Vote />
+            </Route>
+            <Route  path="/makeProposal">
+              <MakeProposal /> 
+            </Route>
+            <Route  path="/history">
+              <ProposalOverview /> 
             </Route>
             <Route component={NotFound} />
           </Switch>

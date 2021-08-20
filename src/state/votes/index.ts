@@ -1,29 +1,29 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
-import farmsConfig from 'config/constants/farms'
-import fetchFarms from './fetchFarms'
+import VotesConfig from 'config/constants/votes'
+import fetchVote from './fetchVote'
 import {
   fetchFarmUserEarnings,
   fetchFarmUserAllowances,
   fetchFarmUserTokenBalances,
   fetchFarmUserStakedBalances,
-} from './fetchFarmUser'
-import { FarmsState, Farm } from '../types'
+} from './fetchVoteUser'
+import {VotesState, Vote } from '../types'
 
-const initialState: FarmsState = { data: [...farmsConfig] }
+const initialState: VotesState = { data: [...VotesConfig] }
 
-export const farmsSlice = createSlice({
-  name: 'Farms',
+export const VoteSlice = createSlice({
+  name: 'Votes',
   initialState,
   reducers: {
-    setFarmsPublicData: (state, action) => {
-      const liveFarmsData: Farm[] = action.payload
-      state.data = state.data.map((farm) => {
-        const liveFarmData = liveFarmsData.find((f) => f.pid === farm.pid)
-        return { ...farm, ...liveFarmData }
+    setVotePublicData: (state, action) => {
+      const liveFarmsData: Vote[] = action.payload
+      state.data = state.data.map((vote) => {
+        const liveFarmData = liveFarmsData.find((f) => f.pid === vote.pid)
+        return { ...vote, ...liveFarmData }
       })
     },
-    setFarmUserData: (state, action) => {
+    setVoteUserData: (state, action) => {
       const { arrayOfUserDataObjects } = action.payload
       arrayOfUserDataObjects.forEach((userDataEl) => {
         const { index } = userDataEl
@@ -34,15 +34,16 @@ export const farmsSlice = createSlice({
 })
 
 // Actions
-export const { setFarmsPublicData, setFarmUserData } = farmsSlice.actions
+export const { setVotePublicData, setVoteUserData } = VoteSlice.actions
 
 // Thunks
-export const fetchFarmsPublicDataAsync = () => async (dispatch) => {
-  const farms = await fetchFarms()
-  dispatch(setFarmsPublicData(farms))
+export const fetchVotePublicDataAsync = () => async (dispatch) => {
+  const farms = await fetchVote()
+  dispatch(setVotePublicData(farms))
 }
-export const fetchFarmUserDataAsync = (account) => async (dispatch) => {
- 
+export const fetchVoteUserDataAsync = (account) => async (dispatch) => {
+
+
   const userFarmAllowances = await fetchFarmUserAllowances(account)
   const userFarmTokenBalances = await fetchFarmUserTokenBalances(account)
   const userStakedBalances = await fetchFarmUserStakedBalances(account)
@@ -58,7 +59,7 @@ export const fetchFarmUserDataAsync = (account) => async (dispatch) => {
     }
   })
 
-  dispatch(setFarmUserData({ arrayOfUserDataObjects }))
+  dispatch(setVoteUserData({ arrayOfUserDataObjects }))
 }
 
-export default farmsSlice.reducer
+export default VoteSlice.reducer

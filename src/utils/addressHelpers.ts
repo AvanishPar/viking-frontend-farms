@@ -7,6 +7,15 @@ export const getCakeAddress = () => {
 export const getMasterChefAddress = () => {
   return addresses.masterChef
 }
+export const getMasterChefAddressVemp = () => {
+  return addresses.masterChefVemp
+}
+export const getVempAddress = () => {
+  return addresses.VempAddress
+}
+export const getFarmAddress = () => {
+  return addresses.FarmsAddress
+}
 export const getMulticallAddress = () => {
   return addresses.mulltiCall
 }

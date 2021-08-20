@@ -5,7 +5,7 @@ import ModalActions from 'components/ModalActions'
 import TokenInput from 'components/TokenInput'
 import useI18n from 'hooks/useI18n'
 import { getFullDisplayBalance } from 'utils/formatBalance'
-import { getLpPairAmount, stake } from 'utils/farmHarvest'
+import { getLpPairAmount, stake } from 'utils/VoteHarvest'
 
 interface DepositModalProps {
   max: BigNumber
@@ -44,7 +44,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDis
 
   const handleSelectMax = useCallback(() => {
     setVal(userAccountBalance.toString())
-  }, [userAccountBalance])
+  }, [userAccountBalance, setVal])
 
   return (
     <Modal title={`${TranslateString(316, 'Deposit')} ${tokenName} Tokens`} onDismiss={onDismiss}>
