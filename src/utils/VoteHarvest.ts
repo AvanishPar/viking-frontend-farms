@@ -2,10 +2,9 @@ import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { ethers } from 'ethers';
 import cheffAbi from '../config/abi/masterchefVemp.json'
-import erc20 from '../config/abi/manaToken.json'
-import erc20Abi from '../config/abi/erc20.json'
+import erc20 from '../config/abi/erc20.json';
 import cheffAbifarm from '../config/abi/masterchef.json'
-import { getCakeAddress, getMasterChefAddressVemp,getMasterChefAddress, getVempAddress } from "./addressHelpers";
+import { getCakeAddress, getMasterChefAddressVemp, getVempAddress } from "./addressHelpers";
 
 
 
@@ -14,9 +13,9 @@ window.web3 = new Web3(window.ethereum);
 // const cheffAddress = Address.getCheffAddress
 // const tokenAddress = Address.getTokenAddress
 
-const cheffAddressfarm = getMasterChefAddress()
 const cheffAddress = getMasterChefAddressVemp()
-const cheffvemp= getVempAddress()
+
+const cheffvemp = getVempAddress()
 
 export const fetchAccounts = () => {
     return new Promise((resolve, reject) => {
@@ -121,10 +120,32 @@ export const checkConnectedAndGetAddress = async () => {
     return addresses[0];
 };
 
+export const getBalanceVemp = async () => {
+    const account = await checkConnectedAndGetAddress();
+    try {
+        if (cheffvemp) {
+
+            const contract = new window.web3.eth.Contract(
+                erc20,
+                cheffvemp,
+            );
+
+            let balanceof = await contract.methods.balanceOf(account).call();
+
+            balanceof = Math.floor(balanceof / 10 ** 18)
+
+            return balanceof;
+        }
+        return ""
+    }
+    catch (error) {
+        return NaN
+    }
+}
+
 // Function to call donate function
 
 export const stake = async (pId: number, amount) => {
-    console.log("Vstack")
     try {
         if (cheffAddress) {
             const account = await checkConnectedAndGetAddress();
@@ -147,7 +168,6 @@ export const stake = async (pId: number, amount) => {
 }
 
 export const approve = async (lpAddress) => {
-    console.log("Vapprove")
     const lpPairAddress = lpAddress
     try {
         if (lpPairAddress) {
@@ -158,7 +178,7 @@ export const approve = async (lpAddress) => {
             );
             const cheffResponse = await contract.methods.approve(cheffAddress, ethers.constants.MaxUint256)
                 .send({ from: account });
-               
+
             return cheffResponse;
         }
         return ""
@@ -182,7 +202,7 @@ export const withdraw = async (pid, amount) => {
                 cheffAddress,
             );
             const reqAmount = new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
-        
+
             const cheffResponse = await contract.methods.withdraw(pid, reqAmount)
                 .send({ from: account });
             return cheffResponse;
@@ -220,7 +240,6 @@ export const getUserInfo = async (pId) => {
 
 
 export const getAllowances = async (lpAddress) => {
-    const chainId = await getChainId()
     const lpPairAddress = lpAddress
     const account = await checkConnectedAndGetAddress();
     try {
@@ -240,20 +259,20 @@ export const getAllowances = async (lpAddress) => {
 }
 
 
-export const getPendingVEMP = async (pid) => {
+export const pendingxVEMP = async (pid) => {
     const account = await checkConnectedAndGetAddress();
     try {
         if (cheffAddress) {
-           
+
             const contract = new window.web3.eth.Contract(
                 cheffAbi,
                 cheffAddress,
             );
-          
-            let pendingEggsResponse = await contract.methods.pendingVEMP(pid, account).call();
+
+            let pendingEggsResponse = await contract.methods.pendingxVEMP(pid, account).call();
 
             pendingEggsResponse = ((pendingEggsResponse / 10 ** 18) || 0)
-          
+
             return pendingEggsResponse
 
         }
@@ -269,15 +288,15 @@ export const getPendingVEMP = async (pid) => {
 export const getPoolInfo = async (pid) => {
     try {
         if (cheffAddress) {
-           
+
             const contract = new window.web3.eth.Contract(
                 cheffAbi,
                 cheffAddress,
             );
-          
+
             let poolInfo = await contract.methods.poolInfo(pid).call();
             poolInfo = (poolInfo.allocPoint) / 100;
-           
+
             return poolInfo;
         }
         return ""
@@ -286,51 +305,7 @@ export const getPoolInfo = async (pid) => {
         return NaN
     }
 }
-// export const getPoolInfo = async (pid) => {
-   
-//     try {
-//         if (cheffAddress) {
-//             console.log("wrked",pid,cheffAddress,cheffAbi)
-//             const contract = new window.web3.eth.Contract(
-//                 cheffAbi,
-//                 cheffAddress,
-//             );
-//             console.log("mult",contract)
-//             let poolInfo = await contract.methods.poolInfo(0).call();
-//             poolInfo = (poolInfo.allocPoint) / 100;
 
-//             console.log("multpool",poolInfo)
-//             return poolInfo;
-//         }
-//         return ""
-//     }
-//     catch (error) {
-//         return NaN
-//     }
-// }
-
-export const getBalanceVemp = async () => {
-    const account = await checkConnectedAndGetAddress();
-    try {
-        if (cheffvemp) {
-        
-            const contract = new window.web3.eth.Contract(
-                erc20Abi,
-                cheffvemp,
-            );
-       
-            let balanceof = await contract.methods.balanceOf(account).call();
-           
-            balanceof = Math.floor(balanceof/1000000000000000000)
- 
-            return balanceof;
-        }
-        return ""
-    }
-    catch (error) {
-        return NaN
-    }
-}
 export const getDepositFees = async (pid) => {
     try {
         if (cheffAddress) {
@@ -339,10 +314,10 @@ export const getDepositFees = async (pid) => {
                 cheffAbi,
                 cheffAddress,
             );
-            const depositFee = await contract.methods.userInfo(pid,account).call();
-     
+            const depositFee = await contract.methods.userInfo(pid, account).call();
+
             return depositFee.amount;
-           
+
         }
         return ""
     }

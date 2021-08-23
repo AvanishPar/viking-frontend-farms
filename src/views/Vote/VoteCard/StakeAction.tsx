@@ -36,7 +36,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({ farm, stakedBalance, toke
 
   const [onPresentDeposit] = useModal(<DepositModal farm={farm} max={tokenBalance} onConfirm={onStake} tokenName={tokenName} depositFeeBP={depositFeeBP} />)
   const [onPresentWithdraw] = useModal(
-    <WithdrawModal max={stakedBalance} onConfirm={onUnstake} tokenName={tokenName} />,
+    <WithdrawModal max={stakedBalance} farm={farm} onConfirm={onUnstake} tokenName={tokenName} />,
   )
 
   const renderStakingButtons = () => {
@@ -44,9 +44,9 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({ farm, stakedBalance, toke
       <Button onClick={onPresentDeposit}>{TranslateString(999, 'Stake')}</Button>
     ) : (
       <IconButtonWrapper>
-        {/* <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
+        <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
           <MinusIcon color="primary" />
-        </IconButton> */}
+        </IconButton>
         <IconButton variant="tertiary" onClick={onPresentDeposit}>
           <AddIcon color="primary" />
         </IconButton>

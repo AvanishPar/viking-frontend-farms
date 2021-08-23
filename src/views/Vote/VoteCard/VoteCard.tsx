@@ -1,6 +1,6 @@
-import React, { useMemo, useState,useEffect } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import { getVempAddress} from 'utils/addressHelpers'
+import { getVempAddress } from 'utils/addressHelpers'
 import styled, { keyframes } from 'styled-components'
 import { Flex, Text, Skeleton } from '@pancakeswap-libs/uikit'
 import { communityFarms } from 'config/constants'
@@ -93,7 +93,6 @@ interface FarmCardProps {
 
 const VoteCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice, ethereum, account }) => {
   const TranslateString = useI18n()
-console.log(farm)
   const [showExpandableSection, setShowExpandableSection] = useState(false)
   const farmImage = farm.isTokenOnly ? farm.tokenSymbol.toLowerCase() : `${farm.tokenSymbol.toLowerCase()}-${farm.quoteTokenSymbol.toLowerCase()}`
 
@@ -115,7 +114,7 @@ console.log(farm)
     : '-'
 
   const lpLabel = farm.lpSymbol
-  const earnLabel = farm.earnAmountFarm
+  const earnLabel = farm.depositFeeBP
   const farmAPY = farm.apy && farm.apy.times(new BigNumber(100)).toNumber().toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

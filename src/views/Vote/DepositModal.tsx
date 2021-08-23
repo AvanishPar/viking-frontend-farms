@@ -16,21 +16,11 @@ interface DepositModalProps {
   farm?: any
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDismiss, tokenName = '', depositFeeBP = 0 }) => {
+const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDismiss, tokenName = '', depositFeeBP }) => {
   const [val, setVal] = useState('')
-  const [userAccountBalance, setUserAccountBalance] = useState<number>(0);
   const [pendingTx, setPendingTx] = useState(false)
   const TranslateString = useI18n()
 
-  React.useEffect(() => {
-    const getUserBalance = async () => {
-      const userBalance: any = await getLpPairAmount(farm.lpAddresses)
-      setUserAccountBalance(userBalance)
-    }
-    getUserBalance()
-
-
-  }, [farm.lpAddresses])
 
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max)
@@ -43,13 +33,13 @@ const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDis
   )
 
   const handleSelectMax = useCallback(() => {
-    setVal(userAccountBalance.toString())
-  }, [userAccountBalance, setVal])
+    setVal(farm.depositFeeBP.toString())
+  }, [farm.depositFeeBP])
 
   return (
     <Modal title={`${TranslateString(316, 'Deposit')} ${tokenName} Tokens`} onDismiss={onDismiss}>
       <TokenInput
-        userAccountBalance={userAccountBalance}
+        userAccountBalance={farm.depositFeeBP}
         value={val}
         onSelectMax={handleSelectMax}
         onChange={handleChange}

@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import erc20 from 'config/abi/erc20.json'
 import masterchefABI from 'config/abi/masterchef.json'
-import { getDepositFees, getPoolInfo, getUserInfo, getPendingVEMP,getBalanceVemp } from 'utils/farmHarvest'
+import { getDepositFees, getPoolInfo, getUserInfo, getPendingVEMP, getLpPairAmount } from 'utils/farmHarvest'
 import multicall from 'utils/multicall'
 import { getMasterChefAddress } from 'utils/addressHelpers'
 import farmsConfig from 'config/constants/farms'
@@ -15,10 +15,10 @@ const fetchFarms = async () => {
 
   const data = await Promise.all(
     farmsConfig.map(async (farmConfig) => {
-      const deposit = await getBalanceVemp()
+      const deposit = await getLpPairAmount(farmConfig.lpAddresses)
       const poolMultiplier = await getPoolInfo(farmConfig.pid)
       const earnAmount = await getPendingVEMP(farmConfig.pid)
-      
+
       const userStakedAmount = await getUserInfo(farmConfig.pid)
 
       // const allocPoint = new BigNumber(info.allocPoint._hex)
@@ -34,7 +34,7 @@ const fetchFarms = async () => {
         // multiplier: `${allocPoint.div(100).toString()}X`,
         multiplier: poolMultiplier,
         depositFeeBP: deposit,
-        earnAmountFarm:earnAmount,
+        earnAmountFarm: earnAmount,
         stakedAmount: userStakedAmount
         // vikingPerBlock: new BigNumber(vikingPerBlock).toNumber(),
       }

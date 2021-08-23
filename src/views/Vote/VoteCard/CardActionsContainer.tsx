@@ -44,7 +44,6 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
   React.useEffect(() => {
     const onAllowance = async () => {
       const isAllowance: any = await getAllowances(farm.lpAddresses)
-   
       setApproveAllowance(isAllowance)
     }
     onAllowance()
@@ -89,7 +88,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
           {TranslateString(999, 'Earned')}
         </Text>
       </Flex>
-      <HarvestAction earnings={earnings} pid={pid} />
+      <HarvestAction earnings={farm.earnAmountFarm} pid={pid} />
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
           {lpName}

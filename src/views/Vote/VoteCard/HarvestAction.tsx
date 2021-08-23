@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
-import { getPendingVEMP } from 'utils/VoteHarvest'
 import { Button, Flex, Heading } from '@pancakeswap-libs/uikit'
 import useI18n from 'hooks/useI18n'
 import { useHarvest } from 'hooks/useHarvest'
@@ -9,7 +8,7 @@ import styled from 'styled-components'
 import useStake from '../../../hooks/useStake'
 
 interface FarmCardActionsProps {
-  earnings?: BigNumber
+  earnings?: number
   pid?: number
 }
 
@@ -20,7 +19,7 @@ const BalanceAndCompound = styled.div`
   flex-direction: column;
 `
 
-const HarvestAction: React.FC<FarmCardActionsProps> = ({ pid }) => {
+const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
   const TranslateString = useI18n()
   const [pendingTx, setPendingTx] = useState(false)
   const { onReward } = useHarvest(pid)
@@ -44,11 +43,11 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ pid }) => {
 
   return (
     <Flex mb='8px' justifyContent='space-between' alignItems='center'>
-      <Heading color={earningBalance === 0 ? 'textDisabled' : 'text'}>{earningBalance}</Heading>
+      <Heading color={earnings === 0 ? 'textDisabled' : 'text'}>{earnings}</Heading>
       <BalanceAndCompound>
 
         <Button
-          disabled={earningBalance === 0 || pendingTx}
+          disabled={earnings === 0 || pendingTx}
           onClick={async () => {
             setPendingTx(true)
             await onReward()

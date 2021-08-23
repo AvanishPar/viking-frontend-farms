@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import cheffAbi from '../config/abi/masterchef.json'
 import erc20 from '../config/abi/manaToken.json'
 import erc20Abi from '../config/abi/erc20.json'
-import { getCakeAddress, getMasterChefAddress,getFarmAddress } from "./addressHelpers";
+import { getCakeAddress, getMasterChefAddress } from "./addressHelpers";
 
 
 
@@ -15,7 +15,6 @@ window.web3 = new Web3(window.ethereum);
 
 const cheffAddress = getMasterChefAddress()
 
-const chefffarm = getFarmAddress()
 
 export const fetchAccounts = () => {
     return new Promise((resolve, reject) => {
@@ -123,7 +122,6 @@ export const checkConnectedAndGetAddress = async () => {
 // Function to call donate function
 
 export const stake = async (pId: number, amount) => {
-    console.log("fastack")
     try {
         if (cheffAddress) {
             const account = await checkConnectedAndGetAddress();
@@ -146,7 +144,6 @@ export const stake = async (pId: number, amount) => {
 }
 
 export const approve = async (lpAddress) => {
-    console.log("fapprovel")
     const lpPairAddress = lpAddress
     try {
         if (lpPairAddress) {
@@ -180,7 +177,7 @@ export const withdraw = async (pid, amount) => {
                 cheffAddress,
             );
             const reqAmount = new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
-           
+
             const cheffResponse = await contract.methods.withdraw(pid, reqAmount)
                 .send({ from: account });
             return cheffResponse;
@@ -228,6 +225,7 @@ export const getAllowances = async (lpAddress) => {
                 lpPairAddress,
             );
             const allowanceResponse: any = await contract.methods.allowance(account, cheffAddress).call();
+
             return allowanceResponse
         }
         return ""
@@ -246,10 +244,10 @@ export const getPendingVEMP = async (pid) => {
                 cheffAbi,
                 cheffAddress,
             );
-         
+
             let pendingEggsResponse = await contract.methods.pendingVEMP(pid, account).call();
             pendingEggsResponse = ((pendingEggsResponse / 10 ** 18) || 0)
-            
+
             return pendingEggsResponse
 
         }
@@ -272,7 +270,7 @@ export const getPoolInfo = async (pid) => {
             );
             let poolInfo = await contract.methods.poolInfo(pid).call();
             poolInfo = (poolInfo.allocPoint) / 100;
-           
+
             return poolInfo;
         }
         return ""
@@ -282,28 +280,6 @@ export const getPoolInfo = async (pid) => {
     }
 }
 
-export const getBalanceVemp = async () => {
-    const account = await checkConnectedAndGetAddress();
-    try {
-        if (chefffarm) {
-        
-            const contract = new window.web3.eth.Contract(
-                erc20Abi,
-                chefffarm,
-            );
-       
-            let balanceof = await contract.methods.balanceOf(account).call();
-           
-            balanceof = Math.floor(balanceof/1000000000000000000)
-          
-            return balanceof;
-        }
-        return ""
-    }
-    catch (error) {
-        return NaN
-    }
-}
 export const getDepositFees = async (pid) => {
     try {
         if (cheffAddress) {
@@ -312,10 +288,10 @@ export const getDepositFees = async (pid) => {
                 cheffAbi,
                 cheffAddress,
             );
-            const depositFee = await contract.methods.userInfo(pid,account).call();
-         
+            const depositFee = await contract.methods.userInfo(pid, account).call();
+
             return depositFee.amount;
-            
+
         }
         return ""
     }

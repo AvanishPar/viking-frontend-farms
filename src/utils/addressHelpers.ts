@@ -13,9 +13,6 @@ export const getMasterChefAddressVemp = () => {
 export const getVempAddress = () => {
   return addresses.VempAddress
 }
-export const getFarmAddress = () => {
-  return addresses.FarmsAddress
-}
 export const getMulticallAddress = () => {
   return addresses.mulltiCall
 }
