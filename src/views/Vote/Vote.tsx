@@ -23,7 +23,6 @@ export interface FarmsProps {
 
 const Vote: React.FC<FarmsProps> = (farmsProps) => {
   const { path } = useRouteMatch()
-  const TranslateString = useI18n()
   const farmsLP = useVotes()
   const cakePrice = usePriceCakeBusd()
   const bnbPrice = usePriceBnbBusd()
@@ -33,9 +32,9 @@ const Vote: React.FC<FarmsProps> = (farmsProps) => {
   const { fastRefresh } = useRefresh()
   useEffect(() => {
     if (account) {
-     
+
       dispatch(fetchVoteUserDataAsync(account))
-     
+
     }
   }, [account, dispatch, fastRefresh])
 
@@ -43,7 +42,7 @@ const Vote: React.FC<FarmsProps> = (farmsProps) => {
 
   const activeFarms = farmsLP.filter((farm) => !!farm.isTokenOnly === !!tokenMode && farm.multiplier !== '0X')
   const inactiveFarms = farmsLP.filter((farm) => !!farm.isTokenOnly === !!tokenMode && farm.multiplier === '0X')
- 
+
   // const stakedOnlyFarms = activeFarms.filter(
   //   (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
   // )
@@ -52,7 +51,7 @@ const Vote: React.FC<FarmsProps> = (farmsProps) => {
 
   const farmsList = useCallback(
     (farmsDisplay, removed: boolean) => {
-     
+
       const farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsDisplay.map((farm) => {
         const cakeRewardPerBlock = new BigNumber(farm.vikingPerBlock || 1).times(new BigNumber(farm.poolWeight)).div(new BigNumber(10).pow(18))
         const cakeRewardPerYear = cakeRewardPerBlock.times(BLOCKS_PER_YEAR)
@@ -88,18 +87,18 @@ const Vote: React.FC<FarmsProps> = (farmsProps) => {
 
   return (
     <Page>
-     
-    
-        <FlexLayout>
-          <Route exact path={`${path}`}>
-            {/* {stakedOnly ? farmsList(stakedOnlyFarms, false) : farmsList(farmsLP, false)} */}
-            {farmsList(stakedOnlyFarms, false)}
-          </Route>
-          <Route exact path={`${path}/history`}>
-            {farmsList(inactiveFarms, true)}
-          </Route>
-        </FlexLayout>
-      
+
+
+      <FlexLayout>
+        <Route exact path={`${path}`}>
+          {/* {stakedOnly ? farmsList(stakedOnlyFarms, false) : farmsList(farmsLP, false)} */}
+          {farmsList(stakedOnlyFarms, false)}
+        </Route>
+        <Route exact path={`${path}/history`}>
+          {farmsList(inactiveFarms, true)}
+        </Route>
+      </FlexLayout>
+
     </Page>
   )
 }

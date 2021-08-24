@@ -14,7 +14,7 @@ import NftGlobalNotification from './views/Nft/components/NftGlobalNotification'
 // Only pool is included in the main bundle because of it's the most visited page'
 const Home = lazy(() => import('./views/Home'))
 const Farms = lazy(() => import('./views/Farms'))
-const MakeProposal = lazy(() => import('./views/MakeProposal'))
+const MakeProposal = lazy(() => import('./views/Vote/MakeProposal'))
 const ProposalOverview = lazy(() => import('./views/Vote/ProposalOverview'))
 const NotFound = lazy(() => import('./views/NotFound'))
 // This config is required for number formating
