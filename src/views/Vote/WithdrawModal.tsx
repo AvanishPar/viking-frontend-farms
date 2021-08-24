@@ -5,6 +5,7 @@ import ModalActions from 'components/ModalActions'
 import TokenInput from 'components/TokenInput'
 import useI18n from 'hooks/useI18n'
 import { getFullDisplayBalance } from 'utils/formatBalance'
+import { withdraw } from 'utils/VoteHarvest'
 
 interface WithdrawModalProps {
   max: BigNumber
@@ -36,6 +37,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ farm, onConfirm, onDismis
   return (
     <Modal title={`Withdraw ${tokenName}`} onDismiss={onDismiss}>
       <TokenInput
+        userAccountBalance={farm.depositFeeBP}
         onSelectMax={handleSelectMax}
         onChange={handleChange}
         value={val}
@@ -50,7 +52,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ farm, onConfirm, onDismis
           disabled={pendingTx}
           onClick={async () => {
             setPendingTx(true)
-            await onConfirm(val)
+            await withdraw(farm.pid, val)
             setPendingTx(false)
             onDismiss()
           }}

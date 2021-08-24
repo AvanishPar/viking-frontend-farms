@@ -49,11 +49,11 @@ const App: React.FC = () => {
             <Route exact path="/vote">
               <Vote />
             </Route>
-            <Route  path="/makeProposal">
-              <MakeProposal /> 
+            <Route path="/makeProposal">
+              <MakeProposal />
             </Route>
-            <Route  path="/history">
-              <ProposalOverview /> 
+            <Route path="/history">
+              <ProposalOverview />
             </Route>
             <Route component={NotFound} />
           </Switch>

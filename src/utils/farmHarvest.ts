@@ -90,6 +90,26 @@ export const getLpPairAmount = async (lpAddress) => {
     }
 }
 
+// total liquidity
+
+export const getTotalLiquidity = async (lpAddress) => {
+    try {
+        if (lpAddress) {
+            const contract = new window.web3.eth.Contract(
+                erc20,
+                lpAddress,
+            );
+            let lpPairResponse = await contract.methods.balanceOf(cheffAddress).call();
+            lpPairResponse = (lpPairResponse / 10 ** 18 || 0).toFixed(2)
+            return lpPairResponse
+        }
+        return ""
+    }
+    catch (error) {
+        return NaN
+    }
+}
+
 // Get BNB balance
 
 export const getBnbBalanceOf = async () => {

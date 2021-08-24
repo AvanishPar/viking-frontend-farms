@@ -56,17 +56,17 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
     return getContract(ethereum as provider, lpAddress);
   }, [ethereum, lpAddress, tokenAddress, isTokenOnly])
 
-  const { onApprove } = useApprove(lpContract)
+
 
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true)
-      await approve(lpAddresses)
+      await approve(farm.lpAddresses)
       setRequestedApproval(false)
     } catch (e) {
       console.error(e)
     }
-  }, [lpAddresses])
+  }, [farm.lpAddresses])
 
   const renderApprovalOrStakeButton = () => {
     return isApproved ? (
@@ -88,7 +88,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
           {TranslateString(999, 'Earned')}
         </Text>
       </Flex>
-      <HarvestAction earnings={farm.earnAmountFarm} pid={pid} />
+      <HarvestAction earnings={farm.earnAmountFarm} pid={farm.pid} />
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
           {lpName}

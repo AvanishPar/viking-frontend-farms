@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
-// import { Heading, Checkbox, Radio, ButtonMenu, ButtonMenuItem, Button } from '@pancakeswap-libs/uikit'
-import useI18n from 'hooks/useI18n'
+import React, { useState, useEffect } from 'react'
+import { Button, Flex } from '@pancakeswap-libs/uikit'
 import styled from 'styled-components'
-import AddParam from '../AddParam'
 
 const Container = styled('div')`
   display: flex;
@@ -28,11 +26,21 @@ const Card = styled('div')`
   border-radius: 10px;
   margin-bottom: 30px;
 `
+const ParamContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+`
 
-const ProposalLeftComponent = () => {
-  const TranslateString = useI18n()
-  // const [text, setText] = useState([])
+
+const ProposalLeftComponent = ({ handleParamChange }) => {
+  const [keyValue,] = useState(0)
+
   const [fields, setFields] = useState([{ value: null }])
+
+  useEffect(() => {
+    handleParamChange(fields)
+  }, [fields, handleParamChange])
+
 
   function handleChange(i, event) {
     const values = [...fields]
@@ -44,6 +52,7 @@ const ProposalLeftComponent = () => {
     const values = [...fields]
     values.push({ value: null })
     setFields(values)
+
   }
 
   function handleRemove(i) {
@@ -53,14 +62,25 @@ const ProposalLeftComponent = () => {
   }
 
   return (
-    <Container>
-      <Label>Proposal Title :</Label>
-      <Text type="text" placeholder="Title" />
-      <Label>Content :</Label>
-      <Card />
-      <Label>Add Params :-</Label>
-      <AddParam />
-    </Container>
+    <>
+      {fields.map((field, idx) => {
+        return (
+          <ParamContainer key={`${keyValue}`} >
+            <Text key={`${keyValue}`} type="text" placeholder="Params" onChange={(e) => handleChange(idx, e)} />
+          </ParamContainer>
+        )
+      })}
+      <Flex>
+
+        <Button style={{ alignSelf: 'center' }} onClick={() => handleAdd()}>
+          Add Param
+        </Button>
+        <Button style={{ alignSelf: 'center', marginLeft: '10px' }} onClick={(e) => handleRemove(e)}>
+          Remove Param
+        </Button>
+      </Flex>
+
+    </>
   )
 }
 

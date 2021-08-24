@@ -6,7 +6,7 @@ const votes: VoteConfig[] = [
     pid: 0,
     risk: 5,
     lpSymbol: 'VEMP Stake',
-    lpAddresses: '0x3e23cf68E78291646B9297AF451896A508DC7dE9',
+    lpAddresses: '0x3d8DAa0C319623Df0f80aaA832ecf539096E9dd0',
 
     tokenSymbol: 'VIKING',
     tokenAddresses: {
@@ -21,7 +21,7 @@ const votes: VoteConfig[] = [
     risk: 3,
     isTokenOnly: true,
     lpSymbol: 'BSCX',
-    lpAddresses: '0x3e23cf68E78291646B9297AF451896A508DC7dE9',
+    lpAddresses: '0x3d8DAa0C319623Df0f80aaA832ecf539096E9dd0',
     tokenSymbol: 'BSCX',
     tokenAddresses: {
       97: '',

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import erc20 from 'config/abi/erc20.json'
-import { getDepositFees, getPoolInfo, getUserInfo, getLpPairAmount, pendingxVEMP, getBalanceVemp } from 'utils/VoteHarvest'
+import { getDepositFees, getPoolInfo, getUserInfo, getLpPairAmount, pendingxVEMP, getBalanceVemp, getTotalLiquidity } from 'utils/VoteHarvest'
 import multicall from 'utils/multicall'
 import { getMasterChefAddress } from 'utils/addressHelpers'
 import votesConfig from 'config/constants/votes'
@@ -15,6 +15,7 @@ const fetchVote = async () => {
   const data = await Promise.all(
     votesConfig.map(async (farms) => {
       const deposit = await getBalanceVemp()
+      const totalLiquidity = await getTotalLiquidity(farms.lpAddresses)
       const poolMultiplier = await getPoolInfo(farms.pid)
       const earnAmount = await pendingxVEMP(farms.pid)
       const userBalance = await getLpPairAmount(farms.lpAddresses)
@@ -35,6 +36,7 @@ const fetchVote = async () => {
         multiplier: poolMultiplier,
         depositFeeBP: deposit,
         earnAmountFarm: earnAmount,
+        totalLiquidityAmount: totalLiquidity,
         stakedAmount: userStakedAmount
         // vikingPerBlock: new BigNumber(vikingPerBlock).toNumber(),
       }

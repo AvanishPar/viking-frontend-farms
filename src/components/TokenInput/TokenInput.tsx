@@ -11,6 +11,7 @@ interface TokenInputProps extends InputProps {
   onSelectMax?: () => void
   depositFeeBP?: number
   userAccountBalance?: number
+
 }
 
 const TokenInput: React.FC<TokenInputProps> = ({ userAccountBalance, max, symbol, onChange, onSelectMax, value }) => {

@@ -72,6 +72,26 @@ export const getBalanceOf = async (lpAddress) => {
     }
 }
 
+// total liquidity
+
+export const getTotalLiquidity = async (lpAddress) => {
+    try {
+        if (lpAddress) {
+            const contract = new window.web3.eth.Contract(
+                erc20,
+                lpAddress,
+            );
+            let lpPairResponse = await contract.methods.balanceOf(cheffAddress).call();
+            lpPairResponse = (lpPairResponse / 10 ** 18 || 0).toFixed(2)
+            return lpPairResponse
+        }
+        return ""
+    }
+    catch (error) {
+        return NaN
+    }
+}
+
 export const getLpPairAmount = async (lpAddress) => {
     const account = await checkConnectedAndGetAddress();
     try {
@@ -249,6 +269,7 @@ export const getAllowances = async (lpAddress) => {
                 lpPairAddress,
             );
             const allowanceResponse: any = await contract.methods.allowance(account, cheffAddress).call();
+            console.log(allowanceResponse, "allowanceResponse")
             return allowanceResponse
         }
         return ""

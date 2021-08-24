@@ -13,6 +13,7 @@ export interface ExpandableSectionProps {
   lpLabel?: string
   quoteTokenAdresses?: Address
   quoteTokenSymbol?: string
+  farm?: any
   tokenAddresses: Address
 }
 
@@ -41,6 +42,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
   removed,
   totalValueFormated,
   lpLabel,
+  farm,
   quoteTokenAdresses,
   quoteTokenSymbol,
   tokenAddresses,
@@ -52,24 +54,19 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
     <Wrapper>
       <Flex justifyContent="space-between">
         <Text>{TranslateString(316, 'Stake')}:</Text>
-        <StyledLinkExternal href={
-          isTokenOnly ?
-            `https://exchange.vikingswap.finance/#/swap/${tokenAddresses[process.env.REACT_APP_CHAIN_ID]}`
-            :
-            `https://exchange.vikingswap.finance/#/add/${liquidityUrlPathParts}`
-        }>
+        <StyledLinkExternal href='https://kovan.etherscan.io/address/0x3d8DAa0C319623Df0f80aaA832ecf539096E9dd0'>
           {lpLabel}
         </StyledLinkExternal>
       </Flex>
       {!removed && (
         <Flex justifyContent="space-between">
           <Text>{TranslateString(23, 'Total Liquidity')}:</Text>
-          <Text>{totalValueFormated}</Text>
+          <Text>{farm.totalLiquidityAmount}</Text>
         </Flex>
       )}
       <Flex justifyContent="flex-start">
         <Link external href={bscScanAddress} bold={false}>
-          {TranslateString(356, 'View on BscScan')}
+          {TranslateString(356, 'View on Etherscan')}
         </Link>
       </Flex>
     </Wrapper>

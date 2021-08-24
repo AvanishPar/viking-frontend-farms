@@ -25,6 +25,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDis
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max)
   }, [max])
+
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       setVal(e.currentTarget.value)

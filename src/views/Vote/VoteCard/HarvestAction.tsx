@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { Button, Flex, Heading } from '@pancakeswap-libs/uikit'
 import useI18n from 'hooks/useI18n'
 import { useHarvest } from 'hooks/useHarvest'
+import { stake } from 'utils/VoteHarvest'
 import { getBalanceNumber } from 'utils/formatBalance'
 import styled from 'styled-components'
 import useStake from '../../../hooks/useStake'
@@ -26,31 +27,17 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
   const { onStake } = useStake(pid)
   const [earningBalance, setEarningBalance] = React.useState<number>(0)
 
-  // React.useEffect(() => {
-  //   const getEarningBalance = async () => {
-  //     const value: any = await getPendingVEMP(pid)
-  //     setEarningBalance(value)
-  //   }
-  //   getEarningBalance()
-  //   const id = setInterval(getEarningBalance, 1000);
-  //   return () => {
-  //     clearInterval(id);
-  //   };
-  // }, [pid])
-
-  // const rawEarningsBalance = getBalanceNumber(earnings)
-  // const displayBalance = rawEarningsBalance.toLocaleString()
 
   return (
     <Flex mb='8px' justifyContent='space-between' alignItems='center'>
-      <Heading color={earnings === 0 ? 'textDisabled' : 'text'}>{earnings}</Heading>
+      <Heading color={earnings === 0 ? 'textDisabled' : 'text'}>{earnings ? (earnings.toFixed(2)) : earnings}</Heading>
       <BalanceAndCompound>
 
         <Button
           disabled={earnings === 0 || pendingTx}
           onClick={async () => {
             setPendingTx(true)
-            await onReward()
+            await stake(pid, 0)
             setPendingTx(false)
           }}
         >

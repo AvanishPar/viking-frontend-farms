@@ -14,7 +14,6 @@ const ProposalTabButton = () => {
     <Wrapper>
       <ButtonMenu activeIndex={isExact ? 0 : 1} >
         <ButtonMenuItem as={Link} to={`${url}`} >
-        {console.log(window.location.pathname)}
           Vote Now
         </ButtonMenuItem>
         {/* <span style={{ padding: '20px' }} /> */}
