@@ -5,6 +5,7 @@ export default {
     wbnb: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
     VempAddress: '0x3d8DAa0C319623Df0f80aaA832ecf539096E9dd0',
     FarmsAddress: '0x3e23cf68E78291646B9297AF451896A508DC7dE9',
+    governorAlphaAddress: '0x3A08B8F1A54Ba9155D8F5681dc1eec3da39ecA5b',
     lottery: '',
     lotteryNFT: '',
     mulltiCall: '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',

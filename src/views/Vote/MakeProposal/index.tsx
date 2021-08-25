@@ -5,6 +5,7 @@ import Page from 'components/layout/Page'
 import { NavLink } from 'react-router-dom'
 import useI18n from 'hooks/useI18n'
 import styled from 'styled-components'
+import { propose } from 'utils/alphaGovernor'
 import ProposalRight from './ProposalRight'
 import ProposalLeft from './ProposalLeft'
 
@@ -96,6 +97,25 @@ const MakeProposal = () => {
     });
   };
 
+  const hexValue = (value) => {
+    const a = value.map((item, idx) => {
+      /* if ((item.value[idx]).substring(0, 2) === '0x') {
+        console.log((item.value).substring(2), "as")
+      } */
+      return item.value
+
+    }
+    )
+
+    /* const hex = `0x${Number(value).toString(16)}`; */
+    console.log(a, "sa")
+  }
+
+  const onPublish = async () => {
+    hexValue(state.paramValue)
+    /* await propose() */
+  }
+
 
 
   return (
@@ -120,7 +140,7 @@ const MakeProposal = () => {
           <ProposalLeft handleParamChange={handleParamChange} handleTitle={handleProposalTitle} handleAddress={handleAddress} handleTextArea={handleTextArea} />
         </Title>
         <Action>
-          <ProposalRight handleEther={handleEtherValue} handleContract={handleContractAddress} />
+          <ProposalRight handleEther={handleEtherValue} handleContract={handleContractAddress} onPublish={onPublish} />
         </Action>
       </Row>
 

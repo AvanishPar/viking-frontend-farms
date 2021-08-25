@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import { Heading, Checkbox, Radio, ButtonMenu, ButtonMenuItem, Button } from '@pancakeswap-libs/uikit'
+import { Heading, Checkbox, Radio, ButtonMenu, ButtonMenuItem, Button, useModal } from '@pancakeswap-libs/uikit'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
 import Divider from 'views/Farms/components/Divider'
 import useI18n from 'hooks/useI18n'
 import styled from 'styled-components'
-import { useHistory,Router ,Switch, Route } from 'react-router-dom'
-// import FarmCard, { FarmWithStakedValue } from '../Farms/components/FarmCard/FarmCard'
 import VoteTabButtons from '../VoteTabButtons'
 import ProposalTabButton from '../ProposalTabButton'
+import VoteNowModal from './VoteNowModal'
 
 const Row = styled('div')`
   margin: 30px 0px;
@@ -16,14 +15,11 @@ const Row = styled('div')`
 `
 
 const ProposalOverview = () => {
-  const TranslateString = useI18n()
-  const [index, setIndex] = useState(0)
-  const [url, setUrl] = React.useState(false)
 
+  const [voteNow] = useModal(<VoteNowModal />)
 
-  const handleClick = (newIndex) => setIndex(newIndex)
   return (
-    
+
     <Page>
       <Heading as="h1" size="lg" color="primary">
         Voting
@@ -53,7 +49,7 @@ const ProposalOverview = () => {
               Proposal 1...
             </Heading>
             <p style={{ marginBottom: '30px' }}>End Oct, 12th 2022 9:00PM</p>
-            <Button>Vote Now</Button>
+            <Button onClick={voteNow}>Vote Now</Button>
           </Row>
         </div>
       </div>

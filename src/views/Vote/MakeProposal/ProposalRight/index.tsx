@@ -36,9 +36,10 @@ interface ProposalProps {
 
   handleContract?: (e) => void
   handleEther?: (e) => void
+  onPublish?: () => void
 }
 
-const ProposalRight: React.FC<ProposalProps> = ({ handleContract, handleEther }) => {
+const ProposalRight: React.FC<ProposalProps> = ({ handleContract, handleEther, onPublish }) => {
   const [date, setDate] = useState(new Date());
   const { account } = useUserAccount()
   const accountEllipsis = account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : null;
@@ -66,9 +67,9 @@ const ProposalRight: React.FC<ProposalProps> = ({ handleContract, handleEther })
         Action
       </Heading>
       <Label>Start Date</Label>
-      <ProposalInput value={date.toLocaleDateString()} />
+      <ProposalInput value={date.toLocaleDateString()} readonly="readOnly" />
       <Label>Start Time</Label>
-      <ProposalInput value={date.toLocaleTimeString()} />
+      <ProposalInput value={date.toLocaleTimeString()} readonly="readOnly" />
       <Label>Ether Value</Label>
       <ProposalInput onChange={(e) => handleEther(e.currentTarget.value)} />
       <Label>Contract Method</Label>
@@ -76,7 +77,7 @@ const ProposalRight: React.FC<ProposalProps> = ({ handleContract, handleEther })
       <Row>
         <Label>Creater :- {accountEllipsis}</Label>
       </Row>
-      <Button style={{ alignSelf: 'center' }}>Publish</Button>
+      <Button onClick={onPublish} style={{ alignSelf: 'center' }}>Publish</Button>
     </Container>
   )
 }

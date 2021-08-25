@@ -39,7 +39,8 @@ const ProposalLeftComponent = ({ handleParamChange }) => {
 
   useEffect(() => {
     handleParamChange(fields)
-  }, [fields, handleParamChange])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fields])
 
 
   function handleChange(i, event) {

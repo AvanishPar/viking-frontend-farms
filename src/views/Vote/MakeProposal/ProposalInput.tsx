@@ -15,10 +15,10 @@ interface InputProps {
   value?: string
   placeholder?: string
   onChange?: (e: React.FormEvent<HTMLInputElement>) => void
-
+  readonly?: any
 }
 
-const ProposalInput: React.FC<InputProps> = ({ onChange, value, placeholder }) => {
+const ProposalInput: React.FC<InputProps> = ({ onChange, value, placeholder, readonly }) => {
   return (
     <Text type="text" onChange={onChange} value={value} placeholder={placeholder} />
   )
