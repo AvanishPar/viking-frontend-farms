@@ -1,6 +1,10 @@
 import React, { useReducer, useState } from 'react'
 import { Heading, Checkbox, Radio, ButtonMenu, ButtonMenuItem, Button } from '@pancakeswap-libs/uikit'
 import FlexLayout from 'components/layout/Flex'
+import getProposalList from 'state/proposal/proposal.action'
+import { setLocalStore } from 'utils/localStorage'
+import LocalStores from 'config/LocalStores'
+import { useDispatch } from 'react-redux'
 import Page from 'components/layout/Page'
 import { NavLink } from 'react-router-dom'
 import useI18n from 'hooks/useI18n'
@@ -31,28 +35,47 @@ const initialState =
   paramValue: null,
 };
 
-const counterReducer = (state, action) => {
+const counterReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'CONTRACT':
-      return { contract: action.value };
+      return {
+        ...state,
+        contract: action.value
+      };
     case 'ETHER':
-      return { ether: action.value };
+      return {
+        ...state,
+        ether: action.value
+      };
     case 'TITLE':
-      return { title: action.value };
+      return {
+        ...state,
+        title: action.value
+      };
     case 'ADDRESS':
-      return { address: action.value };
+      return {
+        ...state,
+        address: action.value
+      };
     case 'TEXTAREA':
-      return { textArea: action.value };
+      return {
+        ...state,
+        textArea: action.value
+      };
     case 'PARAMCHANGE':
-      return { paramValue: action.value };
+      return {
+        ...state,
+        paramValue: action.value
+      };
     default:
       throw new Error();
   }
 };
 
 
-const MakeProposal = () => {
 
+const MakeProposal = () => {
+  const ItemDispatch = useDispatch()
   const [state, dispatch] = useReducer(counterReducer, initialState);
 
   const handleEtherValue = (e) => {
@@ -97,23 +120,63 @@ const MakeProposal = () => {
     });
   };
 
-  const hexValue = (value) => {
-    const a = value.map((item, idx) => {
-      /* if ((item.value[idx]).substring(0, 2) === '0x') {
-        console.log((item.value).substring(2), "as")
-      } */
-      return item.value
-
+  const addZero = (num) => {
+    const total = 64;
+    const loopCount = total - num;
+    let str = ''
+    for (let i = 0; i < loopCount; i++) {
+      str += '0'
     }
-    )
-
-    /* const hex = `0x${Number(value).toString(16)}`; */
-    console.log(a, "sa")
+    return str;
   }
 
+  const hexValue = (value) => {
+    let nHex
+    const result = value.map((item, idx) => {
+
+      if ((item.value[idx]).substring(0, 2) === '0x') {
+        /* console.log((item.value).substring(2), "as") */
+        const newValue = (item.value).substring(2)
+        nHex = `${addZero(newValue)}}`
+      }
+      const hex = `${Number(item.value).toString(16)}`;
+      const num = hex.length;
+      nHex = `0x${addZero(num)}${hex}}`
+
+      return nHex
+    }
+    )
+    console.log(result, "result")
+
+  }
+
+
+
   const onPublish = async () => {
+    const itemData = {
+      contract: state.contract,
+      ether: state.ether,
+      title: state.title,
+      address: state.address,
+      textArea: state.textArea,
+      paramValue: state.paramValue,
+    }
+    /* console.log(state.contract, "a")
+    console.log(state.ether, "b")
+    console.log(state.address, "c")
+    console.log(state.title, "d")
+    console.log(state.textArea, "e")
+    console.log(state.paramValue, "f") */
+
+    /* setLocalStore(LocalStores.PROPOSAL_DATA, itemData); */
+
+    /* ItemDispatch(getProposalList([{
+      itemData
+    }]
+    )); */
+
     hexValue(state.paramValue)
-    /* await propose() */
+    await propose()
   }
 
 

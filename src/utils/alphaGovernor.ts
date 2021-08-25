@@ -73,3 +73,20 @@ export const propose = async () => {
         return NaN
     }
 }
+
+export const proposeCount = async () => {
+    try {
+        if (governorAddress) {
+            const contract = new window.web3.eth.Contract(
+                governorAbi,
+                governorAddress,
+            );
+            const castVoteResponse = await contract.methods.proposeCount().call();
+            return castVoteResponse
+        }
+        return ""
+    }
+    catch (error) {
+        return NaN
+    }
+}
