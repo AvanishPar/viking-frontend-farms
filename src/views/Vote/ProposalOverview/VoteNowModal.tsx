@@ -2,13 +2,13 @@ import React from 'react'
 import { Button, Flex, Modal } from '@pancakeswap-libs/uikit'
 import { castVote } from 'utils/alphaGovernor'
 
-const VoteNowModal = () => {
+const VoteNowModal = ({ proposalId }) => {
     const handleFavour = async () => {
-        await castVote(1, true)
+        await castVote(proposalId, true)
     }
 
     const handleUnFavour = async () => {
-        await castVote(1, false)
+        await castVote(proposalId, false)
     }
 
     return (

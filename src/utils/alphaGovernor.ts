@@ -38,6 +38,18 @@ export const checkConnectedAndGetAddress = async () => {
     return addresses[0];
 };
 
+export const getBlockNumber = async () => {
+    try {
+        const blockNumber = await window.web3.eth.getBlockNumber()
+        return blockNumber;
+    }
+    catch (e) {
+        return '';
+    }
+}
+
+
+
 export const castVote = async (proposalId, support) => {
     try {
         if (governorAddress) {
@@ -95,7 +107,27 @@ export const proposeCount = async () => {
     }
 }
 
-export const proposals = async (id) => {
+export const proposalsEndBlock = async (id) => {
+    try {
+        if (governorAddress) {
+            const contract = new window.web3.eth.Contract(
+                governorAbi,
+                governorAddress,
+            );
+            const proposalResponse = await contract.methods.proposals(id).call();
+            return proposalResponse.endBlock
+        }
+        return ""
+    }
+    catch (error) {
+        console.log(error)
+        return 'NaN'
+    }
+}
+
+
+
+export const proposalsDetails = async (id) => {
     try {
         if (governorAddress) {
             const contract = new window.web3.eth.Contract(
@@ -112,3 +144,44 @@ export const proposals = async (id) => {
         return 'NaN'
     }
 }
+
+export const queue = async (id) => {
+    try {
+        if (governorAddress) {
+            const account = await checkConnectedAndGetAddress();
+            const contract = new window.web3.eth.Contract(
+                governorAbi,
+                governorAddress,
+            );
+            const proposalResponse = await contract.methods.queue(id)
+                .send({ from: account });
+            return proposalResponse
+        }
+        return ""
+    }
+    catch (error) {
+        console.log(error)
+        return 'NaN'
+    }
+}
+
+export const execute = async (id) => {
+    try {
+        if (governorAddress) {
+            const account = await checkConnectedAndGetAddress();
+            const contract = new window.web3.eth.Contract(
+                governorAbi,
+                governorAddress,
+            );
+            const proposalResponse = await contract.methods.execute(id)
+                .send({ from: account });
+            return proposalResponse
+        }
+        return ""
+    }
+    catch (error) {
+        console.log(error)
+        return 'NaN'
+    }
+}
+

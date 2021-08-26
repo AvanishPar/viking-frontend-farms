@@ -27,7 +27,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
 
   return (
     <Flex mb='8px' justifyContent='space-between' alignItems='center'>
-      <Heading color={earnings === 0 ? 'textDisabled' : 'text'}>{earnings ? (earnings.toFixed(2)) : earnings}</Heading>
+      <Heading color={earnings === 0 ? 'textDisabled' : 'text'}>{earnings ? (earnings.toFixed(3)) : earnings}</Heading>
       <BalanceAndCompound>
 
         <Button
