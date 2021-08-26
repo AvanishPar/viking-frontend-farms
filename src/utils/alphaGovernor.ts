@@ -56,7 +56,7 @@ export const castVote = async (proposalId, support) => {
     }
 }
 
-export const propose = async () => {
+export const propose = async (target, value, signature, callData, description) => {
     try {
         if (governorAddress) {
             const account = await checkConnectedAndGetAddress();
@@ -64,12 +64,15 @@ export const propose = async () => {
                 governorAbi,
                 governorAddress,
             );
-            const castVoteResponse = await contract.methods.propose().send({ from: account });
+            const castVoteResponse = await contract.methods.propose(target, value, signature, callData, description)
+                .send({ from: account });
+            console.log(castVoteResponse, "cast")
             return castVoteResponse
         }
         return ""
     }
     catch (error) {
+        console.log(error)
         return NaN
     }
 }
@@ -81,12 +84,31 @@ export const proposeCount = async () => {
                 governorAbi,
                 governorAddress,
             );
-            const castVoteResponse = await contract.methods.proposeCount().call();
+            const castVoteResponse = await contract.methods.proposalCount().call();
             return castVoteResponse
         }
         return ""
     }
     catch (error) {
-        return NaN
+        console.log(error)
+        return 'NaN'
+    }
+}
+
+export const proposals = async (id) => {
+    try {
+        if (governorAddress) {
+            const contract = new window.web3.eth.Contract(
+                governorAbi,
+                governorAddress,
+            );
+            const proposalResponse = await contract.methods.proposals(id).call();
+            return proposalResponse
+        }
+        return ""
+    }
+    catch (error) {
+        console.log(error)
+        return 'NaN'
     }
 }

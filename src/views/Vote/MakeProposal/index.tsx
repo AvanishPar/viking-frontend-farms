@@ -1,15 +1,11 @@
 import React, { useReducer, useState } from 'react'
-import { Heading, Checkbox, Radio, ButtonMenu, ButtonMenuItem, Button } from '@pancakeswap-libs/uikit'
-import FlexLayout from 'components/layout/Flex'
-import getProposalList from 'state/proposal/proposal.action'
-import { setLocalStore } from 'utils/localStorage'
+import { Heading, Button } from '@pancakeswap-libs/uikit'
+import { setLocalStore, getLocalStore } from 'utils/localStorage'
 import LocalStores from 'config/LocalStores'
-import { useDispatch } from 'react-redux'
 import Page from 'components/layout/Page'
 import { NavLink } from 'react-router-dom'
-import useI18n from 'hooks/useI18n'
 import styled from 'styled-components'
-import { propose } from 'utils/alphaGovernor'
+import { proposeCount, propose } from 'utils/alphaGovernor'
 import ProposalRight from './ProposalRight'
 import ProposalLeft from './ProposalLeft'
 
@@ -31,7 +27,7 @@ const initialState =
   ether: null,
   title: null,
   address: null,
-  textArea: null,
+  description: null,
   paramValue: null,
 };
 
@@ -60,7 +56,7 @@ const counterReducer = (state = initialState, action) => {
     case 'TEXTAREA':
       return {
         ...state,
-        textArea: action.value
+        description: action.value
       };
     case 'PARAMCHANGE':
       return {
@@ -75,8 +71,10 @@ const counterReducer = (state = initialState, action) => {
 
 
 const MakeProposal = () => {
-  const ItemDispatch = useDispatch()
   const [state, dispatch] = useReducer(counterReducer, initialState);
+
+
+
 
   const handleEtherValue = (e) => {
     dispatch({
@@ -132,54 +130,48 @@ const MakeProposal = () => {
 
   const hexValue = (value) => {
     let nHex
-    const result = value.map((item, idx) => {
+    const result = value.map((item) => {
 
-      if ((item.value[idx]).substring(0, 2) === '0x') {
-        /* console.log((item.value).substring(2), "as") */
-        const newValue = (item.value).substring(2)
-        nHex = `${addZero(newValue)}}`
+      if ((item.value).substring(0, 2) === '0x') {
+        const newValue = (item.value)?.substring(2)
+        const num = newValue.length;
+        nHex = `${addZero(num)}${newValue}`
       }
-      const hex = `${Number(item.value).toString(16)}`;
-      const num = hex.length;
-      nHex = `0x${addZero(num)}${hex}}`
-
+      else {
+        const hex = `${Number(item.value).toString(16)}`;
+        const num = hex.length;
+        nHex = `0x${addZero(num)}${hex}`
+      }
       return nHex
     }
     )
-    console.log(result, "result")
+
+    const params = result.join('')
+    return params
 
   }
 
 
 
   const onPublish = async () => {
-    const itemData = {
-      contract: state.contract,
-      ether: state.ether,
-      title: state.title,
-      address: state.address,
-      textArea: state.textArea,
-      paramValue: state.paramValue,
+    const value = getLocalStore(LocalStores.PROPOSAL_DATA)
+    const proposalCount = await proposeCount()
+    const paramData = hexValue(state.paramValue)
+
+    const item = [
+      ...value,
+      {
+        id: Number(proposalCount) + 1,
+        title: state.title,
+        description: state.description,
+      }
+    ]
+
+    const proposeResult = await propose([state.address], [Number(state.ether)], [state.contract], [paramData], (state.description))
+    if (proposeResult.status === true) {
+      setLocalStore(LocalStores.PROPOSAL_DATA, item)
     }
-    /* console.log(state.contract, "a")
-    console.log(state.ether, "b")
-    console.log(state.address, "c")
-    console.log(state.title, "d")
-    console.log(state.textArea, "e")
-    console.log(state.paramValue, "f") */
-
-    /* setLocalStore(LocalStores.PROPOSAL_DATA, itemData); */
-
-    /* ItemDispatch(getProposalList([{
-      itemData
-    }]
-    )); */
-
-    hexValue(state.paramValue)
-    await propose()
   }
-
-
 
   return (
     <Page>
