@@ -68,7 +68,7 @@ const ProposalData = ({ id, title, description }: proposalProps) => {
             <p style={{ marginBottom: '30px' }}> <b>End Voting at block number</b>:- {proposalEndBlock}</p>
             <Flex>
                 <Button style={{ marginRight: '10px' }} disabled={showVote} onClick={voteNow}>Vote Now</Button>
-                <Button style={{ marginRight: '10px' }} disabled={!showVote || (!Number(proposalETA) || Number(proposalETA) < Number(timeStamp))} onClick={async () => {
+                <Button style={{ marginRight: '10px' }} disabled={!showVote && Number(proposalETA) < Number(timeStamp)} onClick={async () => {
                     await queue(id)
                 }}>
                     Queue

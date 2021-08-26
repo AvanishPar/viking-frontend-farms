@@ -2,7 +2,11 @@ import React from 'react'
 import { Button, Flex, Modal } from '@pancakeswap-libs/uikit'
 import { castVote } from 'utils/alphaGovernor'
 
-const VoteNowModal = ({ proposalId }) => {
+interface VoteNowModalProps {
+    proposalId?: any
+}
+
+const VoteNowModal: React.FC<VoteNowModalProps> = ({ proposalId }) => {
     const handleFavour = async () => {
         await castVote(proposalId, true)
     }
@@ -11,8 +15,9 @@ const VoteNowModal = ({ proposalId }) => {
         await castVote(proposalId, false)
     }
 
+
     return (
-        <Modal title="Vote" >
+        <Modal title="Vote"  >
             <Flex>
                 <Button onClick={handleFavour} style={{ marginRight: '10px' }}>Favour</Button>
                 <Button onClick={handleUnFavour}>UnFavour</Button>

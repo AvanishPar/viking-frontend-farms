@@ -177,7 +177,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
         <DetailsSection
           removed={removed}
           isTokenOnly={farm.isTokenOnly}
-          bscScanAddress='https://kovan.etherscan.io/address/0x88744DDDAe7512F768Fdf59266f350ab7A81af8D'
+          bscScanAddress='https://kovan.etherscan.io/address/0x11bdfc90ecB75e3F3eDa03021F403beE740DE862'
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           farm={farm}

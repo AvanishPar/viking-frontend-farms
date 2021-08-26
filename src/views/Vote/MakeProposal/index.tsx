@@ -22,6 +22,7 @@ const Action = styled('div')`
 `
 
 const initialState =
+
 {
   contract: null,
   ether: null,
@@ -30,6 +31,8 @@ const initialState =
   description: null,
   paramValue: null,
 };
+
+
 
 const counterReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -63,6 +66,16 @@ const counterReducer = (state = initialState, action) => {
         ...state,
         paramValue: action.value
       };
+    case 'RESET':
+      return {
+        contract: '',
+        ether: '',
+        title: '',
+        address: '',
+        description: '',
+        paramValue: '',
+      }
+
     default:
       throw new Error();
   }
@@ -73,8 +86,11 @@ const counterReducer = (state = initialState, action) => {
 const MakeProposal = () => {
   const [state, dispatch] = useReducer(counterReducer, initialState);
 
-
-
+  const handleReset = () => {
+    return {
+      type: "RESET",
+    }
+  }
 
   const handleEtherValue = (e) => {
     dispatch({
@@ -154,6 +170,8 @@ const MakeProposal = () => {
 
 
   const onPublish = async () => {
+
+
     const value = getLocalStore(LocalStores.PROPOSAL_DATA)
     const proposalCount = await proposeCount()
     const paramData = hexValue(state.paramValue)
@@ -167,9 +185,12 @@ const MakeProposal = () => {
       }
     ]
 
+
     const proposeResult = await propose([state.address], [Number(state.ether)], [state.contract], [paramData], (state.description))
     if (proposeResult.status === true) {
       setLocalStore(LocalStores.PROPOSAL_DATA, item)
+      dispatch(handleReset())
+
     }
   }
 
@@ -192,10 +213,10 @@ const MakeProposal = () => {
       </Heading>
       <Row>
         <Title>
-          <ProposalLeft handleParamChange={handleParamChange} handleTitle={handleProposalTitle} handleAddress={handleAddress} handleTextArea={handleTextArea} />
+          <ProposalLeft value={state} handleParamChange={handleParamChange} handleTitle={handleProposalTitle} handleAddress={handleAddress} handleTextArea={handleTextArea} />
         </Title>
         <Action>
-          <ProposalRight handleEther={handleEtherValue} handleContract={handleContractAddress} onPublish={onPublish} />
+          <ProposalRight value={state} handleEther={handleEtherValue} handleContract={handleContractAddress} onPublish={onPublish} />
         </Action>
       </Row>
 

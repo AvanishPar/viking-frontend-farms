@@ -27,21 +27,29 @@ interface proposalProps {
   handleAddress?: (e) => void
   handleTextArea?: (e) => void
   handleParamChange?: (e) => void
+  value: any
 }
 
-const ProposalLeft: React.FC<proposalProps> = ({ handleTitle, handleAddress, handleTextArea, handleParamChange }) => {
-
-
+const ProposalLeft: React.FC<proposalProps> = ({ value, handleTitle, handleAddress, handleTextArea, handleParamChange }) => {
   return (
     <Container>
       <Label>Proposal Title :</Label>
-      <ProposalInput onChange={(e) => handleTitle(e.currentTarget.value)} placeholder="Title" />
+      <ProposalInput value={value.title} onChange={(e) => handleTitle(e.currentTarget.value)} placeholder="Title" />
       <Label>Contract Address :</Label>
-      <ProposalInput onChange={(e) => handleAddress(e.currentTarget.value)} />
+      <ProposalInput value={value.address} onChange={(e) => handleAddress(e.currentTarget.value)} />
       <Label>Content :</Label>
-      <TextArea onChange={(e) => handleTextArea(e.currentTarget.value)} />
+      <TextArea value={value.description} onChange={(e) => handleTextArea(e.currentTarget.value)} />
       <Label>Add Params :-</Label>
       <AddParam handleParamChange={handleParamChange} />
+
+      {/* {
+        value?.paramValue.map((param) =>
+        (
+          <AddParam paramValue={param.value} handleParamChange={handleParamChange} />
+        )
+        )
+      } */}
+
     </Container>
   )
 }
