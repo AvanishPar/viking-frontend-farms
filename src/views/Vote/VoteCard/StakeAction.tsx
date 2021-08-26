@@ -40,8 +40,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({ farm, stakedBalance, toke
   )
 
   const renderStakingButtons = () => {
-    console.log(farm.userStakedAmount)
-    return farm.userStakedAmount === 0 ? (
+    return farm?.stakedAmount === '0' ? (
       <Button onClick={onPresentDeposit}>{TranslateString(999, 'Stake')}</Button>
     ) : (
       <IconButtonWrapper>
