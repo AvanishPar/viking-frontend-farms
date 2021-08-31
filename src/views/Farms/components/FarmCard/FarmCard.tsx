@@ -58,6 +58,8 @@ const StyledCardAccent = styled.div`
 `
 
 const FCard = styled.div`
+  min-width: 400px;
+  max-width: 45%;
   align-self: baseline;
   background: ${(props) => props.theme.card.background};
   border-radius: 32px;
@@ -168,7 +170,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
         <Text bold style={{ margin: 'auto 0' }}>{depositFeeBP}MANA</Text>
       </Flex>
       <CardActionsContainer farm={farm} ethereum={ethereum} account={account} />
-   
+
       <ExpandableSectionButton
         onClick={() => setShowExpandableSection(!showExpandableSection)}
         expanded={showExpandableSection}
