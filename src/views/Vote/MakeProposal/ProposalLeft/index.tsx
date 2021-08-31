@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import Divider from 'views/Farms/components/Divider'
 import AddParam from './AddParam'
 import ProposalInput from '../ProposalInput'
 
@@ -51,6 +52,7 @@ const ProposalLeft: React.FC<proposalProps> = ({ value, handleTitle, handleAddre
         )
       } */}
 
+      <Divider />
     </Container>
   )
 }

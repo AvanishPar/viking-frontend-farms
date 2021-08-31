@@ -67,7 +67,7 @@ const FarmedStakingCard = () => {
   return (
     <StyledFarmStakingCard>
       <CardBody>
-        <Heading size="xl" mb="24px">
+        <Heading style={{ fontSize: '36px', fontWeight: 100 }} size="xl" mb="24px">
           {TranslateString(542, 'Metaverse Staking')}
         </Heading>
         {/* <CardImage src="/images/egg/2.png" alt="cake logo" width={64} height={64} /> */}

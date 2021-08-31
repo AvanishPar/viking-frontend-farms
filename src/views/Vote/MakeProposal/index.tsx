@@ -13,13 +13,12 @@ const Row = styled('div')`
   /* display: flex; */
   justify-content: space-between;
 `
-const Title = styled('div')`
+const MakeProposalStyle = styled('div')`
   /* flex: 0.6; */
-  margin-right:50px
+  margin:auto!important;
+  width:60%!important
 `
-const Action = styled('div')`
-  /* flex: 0.4; */
-`
+
 const HeaderButton = styled(Button)`
 background-color: #27262c !important;
 `
@@ -198,30 +197,29 @@ const MakeProposal = () => {
 
   return (
     <Page>
-      <NavLink to="/vote">
-        <HeaderButton style={{ alignSelf: 'center', marginBottom: '20px' }} >
-          Back
-        </HeaderButton>
-      </NavLink>
+      <MakeProposalStyle>
+        <NavLink to="/vote">
+          <HeaderButton style={{ marginBottom: '20px' }} >
+            Back
+          </HeaderButton>
+        </NavLink>
 
-      <NavLink to="/history">
-        <HeaderButton style={{ alignSelf: 'center', marginBottom: '20px', marginLeft: '10px' }} >
-          Proposal Overview
-        </HeaderButton>
-      </NavLink>
+        <NavLink to="/history">
+          <HeaderButton style={{ marginBottom: '20px', marginLeft: '10px', float: 'right' }} >
+            Proposal Overview
+          </HeaderButton>
+        </NavLink>
 
-      <Heading as="h1" size="lg" color="primary" style={{ marginBottom: '30px' }}>
-        Make a Proposal
-      </Heading>
-      <Row>
-        <Title>
+        <Heading as="h1" size="lg" color="primary" style={{ marginBottom: '30px' }}>
+          Make a Proposal
+        </Heading>
+        <Row>
           <ProposalLeft value={state} handleParamChange={handleParamChange} handleTitle={handleProposalTitle} handleAddress={handleAddress} handleTextArea={handleTextArea} />
-        </Title>
-        <Action>
           <ProposalRight value={state} handleEther={handleEtherValue} handleContract={handleContractAddress} onPublish={onPublish} />
-        </Action>
-      </Row>
 
+        </Row>
+
+      </MakeProposalStyle >
     </Page>
   )
 }

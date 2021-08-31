@@ -1,4 +1,4 @@
-import React, { useState,useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Heading, Checkbox, Radio, ButtonMenu, ButtonMenuItem, Button } from '@pancakeswap-libs/uikit'
 import Page from 'components/layout/Page'
 import useI18n from 'hooks/useI18n'
@@ -11,24 +11,24 @@ const Row = styled('div')`
   padding: 0;
 `
 
-const Votes :React.FC = () => {
+const Votes: React.FC = () => {
   const TranslateString = useI18n();
- 
+
   return (
-    
+
     <Page>
       <Div>
-      <Heading as="h1" size="lg" color="primary">
-        Voting
-      </Heading>
-      <Heading as="h2" color="secondary" mb="50px">
-        Have you say in the future of the vEmpire <br /> ecosystem
-      </Heading>
+        <Heading as="h1" size="lg" color="primary">
+          Voting
+        </Heading>
+        <Heading as="h2" color="secondary" mt="30px" mb="50px">
+          Have you say in the future of the vEmpire ecosystem
+        </Heading>
 
-      <VoteTabButtons />
-    
-       <Vote/>
-       </Div>
+        <VoteTabButtons />
+
+        <Vote />
+      </Div>
     </Page>
   )
 }

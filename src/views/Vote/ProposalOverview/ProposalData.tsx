@@ -16,6 +16,16 @@ const Title = styled(Text)`
 const SubHeading = styled.div`
   color:#ffffff;
 `
+const ProposalBtn = styled.div`
+button{
+    font-weight: 100;
+    color: #EAE3FB;
+    border: 1px solid #FFFFFF!important;
+    border-radius: 22px;
+    margin-right: 10px;
+    background-color: #27262c;
+}
+`
 
 interface proposalProps {
     id: number,
@@ -69,18 +79,20 @@ const ProposalData = ({ id, title, description }: proposalProps) => {
                 <SubHeading color="primary" onClick={titleDetails} >{title}</SubHeading>
             </Heading>
             <p style={{ marginBottom: '30px', color: '#fff' }}> <b>End Voting at block number</b>:- {proposalEndBlock}</p>
-            <Flex>
-                <Button style={{ marginRight: '10px' }} disabled={showVote} onClick={voteNow}>Vote Now</Button>
-                <Button style={{ marginRight: '10px' }} disabled={!showVote && Number(proposalETA) < Number(timeStamp)} onClick={async () => {
-                    await queue(id)
-                }}>
-                    Queue
-                </Button>
-                <Button disabled={showExecute} onClick={async () => {
-                    await execute(id)
-                }}>
-                    Execute
-                </Button>
+            <Flex style={{ justifyContent: 'center' }}>
+                <ProposalBtn>
+                    <Button style={{ marginRight: '10px' }} disabled={showVote} onClick={voteNow}>Vote Now</Button>
+                    <Button style={{ marginRight: '10px' }} disabled={!showVote && Number(proposalETA) < Number(timeStamp)} onClick={async () => {
+                        await queue(id)
+                    }}>
+                        Queue
+                    </Button>
+                    <Button disabled={showExecute} onClick={async () => {
+                        await execute(id)
+                    }}>
+                        Execute
+                    </Button>
+                </ProposalBtn>
             </Flex>
 
         </div >

@@ -9,14 +9,14 @@ const VoteTabButtons = () => {
   const TranslateString = useI18n()
   return (
     <Wrapper>
-        <Button as={Link} to="/makeProposal" /* onClick={handleMakeProposal} */>
-          {TranslateString(698, 'Make a Proposal')}
-        </Button>
-        {/* <span style={{ padding: '20px' }} /> */}
-        <Button as={Link} to="/history">
-          {TranslateString(700, 'Proposal overview')}
-        </Button>
-     
+      <Button as={Link} to="/makeProposal" /* onClick={handleMakeProposal} */>
+        {TranslateString(698, 'Make a Proposal')}
+      </Button>
+      {/* <span style={{ padding: '20px' }} /> */}
+      <Button as={Link} to="/history">
+        {TranslateString(700, 'Proposal overview')}
+      </Button>
+
     </Wrapper>
   )
 }
@@ -29,9 +29,13 @@ const Wrapper = styled.div`
   align-items: center;
   margin-bottom: 32px;
   a{
+    font-weight: 100;
+    color: #EAE3FB;
+    border: 1px solid #FFFFFF;
+    border-radius: 22px;
     margin-right: 10px;
-    border:1px solid #27262c;
     background-color: #27262c;
+
   }
   a:hover,a:active{
     border:1px solid #27262c;

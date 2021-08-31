@@ -59,7 +59,7 @@ const Home: React.FC = () => {
   return (
     <Page>
       <Hero>
-        <Heading as="h1" size="xl" mb="24px" color="secondary">
+        <Heading style={{ fontSize: '40px', fontWeight: 100 }} size="xl" mb="24px" color="secondary">
           {TranslateString(576, 'Viking Swap')}
         </Heading>
         <Text>{TranslateString(578, 'The only yield farm for Warriors on the journey to Valhalla on Binance Smart Chain.')}</Text>
@@ -67,7 +67,7 @@ const Home: React.FC = () => {
       <div>
         <Cards>
           <FarmStakingCard />
-          <TwitterCard/>
+          <TwitterCard />
           <CakeStats />
           <TotalValueLockedCard />
         </Cards>

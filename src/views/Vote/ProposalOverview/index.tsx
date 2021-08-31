@@ -38,45 +38,45 @@ const ProposalOverview = () => {
 
     <Page>
       <Div>
-      <Heading as="h1" size="lg" color="primary">
-        Voting
-      </Heading>
-      <Heading as="h2" color="secondary" mb="50px">
-        Have you say in the future of the vEmpire <br /> ecosystem
-      </Heading>
-     
-      <VoteTabButtons />
+        <Heading as="h1" size="lg" color="primary">
+          Voting
+        </Heading>
+        <Heading as="h2" color="secondary" mt="30px" mb="50px">
+          Have you say in the future of the vEmpire <br /> ecosystem
+        </Heading>
+
+        <VoteTabButtons />
+
+        <div style={{ marginTop: '50px' }}>
+          <Divider />
+          <div>
+            <Heading as="h1" size="lg" color="primary">
+              Proposals
+            </Heading>
+            <Row>
+
+              {proposalData ?
+                (proposalData.map((item) => {
+                  return <ProposalData {...item} />
+                })
+                ) : 'No Proposal Count'}
+
+            </Row>
+          </div>
+        </div>
+        <div style={{ marginTop: '50px' }}>
+          <Divider />
+          <div>
+            <Heading as="h1" size="lg" color="primary" style={{ marginBottom: '30px' }}>
+              Got a Suggestion?
+            </Heading>
+            <SubHeading>
+              <p >Community Propsals are a great way to see how the community feels about your ideas.</p>
+            </SubHeading>
+
+          </div>
+        </div>
       </Div>
-      <div style={{ marginTop: '50px' }}>
-       
-        <div>
-          <Heading as="h1" size="lg" color="primary">
-            Proposals
-          </Heading>
-          <Row>
-
-            {proposalData ?
-              (proposalData.map((item) => {
-                return <ProposalData {...item} />
-              })
-              ) : 'No Proposal Count'}
-
-          </Row>
-        </div>
-      </div>
-      <div style={{ marginTop: '50px' }}>
-        <Divider />
-        <div>
-          <Heading as="h1" size="lg" color="primary" style={{ marginBottom: '30px' }}>
-            Got a Suggestion?
-          </Heading>
-          <SubHeading>
-            <p >Community Propsals are a great way to see how the community feels about your ideas.</p>
-          </SubHeading>
-
-        </div>
-      </div>
-     
     </Page >
   )
 }
