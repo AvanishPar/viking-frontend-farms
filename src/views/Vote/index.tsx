@@ -17,6 +17,7 @@ const Votes :React.FC = () => {
   return (
     
     <Page>
+      <Div>
       <Heading as="h1" size="lg" color="primary">
         Voting
       </Heading>
@@ -25,13 +26,18 @@ const Votes :React.FC = () => {
       </Heading>
 
       <VoteTabButtons />
-      <Divider/>
+    
        <Vote/>
+       </Div>
     </Page>
   )
 }
 
 export default Votes
 const Divider = styled.div`
-border:1px solid #8a6a10;
+border:1px solid #27262c;
+`
+
+const Div = styled.div`
+  text-align:center;
 `

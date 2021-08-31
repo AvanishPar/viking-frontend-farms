@@ -10,8 +10,11 @@ const Title = styled(Text)`
     font-size: 24px;
     font-weight: 600;
     line-height: 1.1;
-    color:#8a6a10!important;
+    color:#27262c !important;
     cursor:pointer
+`
+const SubHeading = styled.div`
+  color:#ffffff;
 `
 
 interface proposalProps {
@@ -63,9 +66,9 @@ const ProposalData = ({ id, title, description }: proposalProps) => {
     return (
         <div style={{ marginBottom: '50px' }}>
             <Heading as="h1" size="lg" color="primary" style={{ marginBottom: '30px' }}>
-                <Title onClick={titleDetails} >{title}</Title>
+                <SubHeading color="primary" onClick={titleDetails} >{title}</SubHeading>
             </Heading>
-            <p style={{ marginBottom: '30px' }}> <b>End Voting at block number</b>:- {proposalEndBlock}</p>
+            <p style={{ marginBottom: '30px', color: '#fff' }}> <b>End Voting at block number</b>:- {proposalEndBlock}</p>
             <Flex>
                 <Button style={{ marginRight: '10px' }} disabled={showVote} onClick={voteNow}>Vote Now</Button>
                 <Button style={{ marginRight: '10px' }} disabled={!showVote && Number(proposalETA) < Number(timeStamp)} onClick={async () => {

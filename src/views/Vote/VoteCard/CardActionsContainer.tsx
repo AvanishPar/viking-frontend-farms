@@ -80,8 +80,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
   return (
     <Action>
       <Flex>
-        <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
-          VEMP
+        <Text bold  color="secondary" fontSize="12px" pr="3px">
+          xVEMP
         </Text>
         <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
           {TranslateString(999, 'Earned')}

@@ -165,7 +165,7 @@ const VoteCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
         <Text bold style={{ margin: 'auto 0' }}>{earnLabel}VEMP</Text>
       </Flex>
       <CardActionsContainer farm={farm} ethereum={ethereum} account={account} />
-      <Divider />
+     
       <ExpandableSectionButton
         onClick={() => setShowExpandableSection(!showExpandableSection)}
         expanded={showExpandableSection}

@@ -10,8 +10,14 @@ const Row = styled.div`
   justify-content: space-between;
   margin-bottom: 8px;
 `
+interface TitleDetailsModalProps{
+    onDismiss?:()=>void;
+    proposalId:number;
+    title:string;
+    description:string;
+}
 
-const TitleDetailsModal = ({ proposalId, title, description }) => {
+const TitleDetailsModal: React.FC<TitleDetailsModalProps>= ({onDismiss, proposalId, title, description}) => {
     const [proposalDetail, setProposalDetail] = React.useState<any>()
 
     React.useEffect(() => {
@@ -24,7 +30,7 @@ const TitleDetailsModal = ({ proposalId, title, description }) => {
 
     }, [proposalId])
     return (
-        <Modal title="Title" >
+        <Modal title="Title" onDismiss={()=>{onDismiss()}}>
 
             <Row>
                 <Text fontSize="14px">Title:- </Text>

@@ -10,17 +10,19 @@ import ProposalRight from './ProposalRight'
 import ProposalLeft from './ProposalLeft'
 
 const Row = styled('div')`
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
 `
 const Title = styled('div')`
-  flex: 0.6;
+  /* flex: 0.6; */
   margin-right:50px
 `
 const Action = styled('div')`
-  flex: 0.4;
+  /* flex: 0.4; */
 `
-
+const HeaderButton = styled(Button)`
+background-color: #27262c !important;
+`
 const initialState =
 
 {
@@ -35,6 +37,7 @@ const initialState =
 
 
 const counterReducer = (state = initialState, action) => {
+
   switch (action.type) {
     case 'CONTRACT':
       return {
@@ -79,6 +82,7 @@ const counterReducer = (state = initialState, action) => {
     default:
       throw new Error();
   }
+
 };
 
 
@@ -87,9 +91,9 @@ const MakeProposal = () => {
   const [state, dispatch] = useReducer(counterReducer, initialState);
 
   const handleReset = () => {
-    return {
-      type: "RESET",
-    }
+    dispatch({
+      type: 'RESET',
+    });
   }
 
   const handleEtherValue = (e) => {
@@ -171,7 +175,6 @@ const MakeProposal = () => {
 
   const onPublish = async () => {
 
-
     const value = getLocalStore(LocalStores.PROPOSAL_DATA)
     const proposalCount = await proposeCount()
     const paramData = hexValue(state.paramValue)
@@ -189,23 +192,22 @@ const MakeProposal = () => {
     const proposeResult = await propose([state.address], [Number(state.ether)], [state.contract], [paramData], (state.description))
     if (proposeResult.status === true) {
       setLocalStore(LocalStores.PROPOSAL_DATA, item)
-      dispatch(handleReset())
-
+      handleReset();
     }
   }
 
   return (
     <Page>
       <NavLink to="/vote">
-        <Button style={{ alignSelf: 'center', marginBottom: '20px' }} >
+        <HeaderButton style={{ alignSelf: 'center', marginBottom: '20px' }} >
           Back
-        </Button>
+        </HeaderButton>
       </NavLink>
 
       <NavLink to="/history">
-        <Button style={{ alignSelf: 'center', marginBottom: '20px', marginLeft: '10px' }} >
+        <HeaderButton style={{ alignSelf: 'center', marginBottom: '20px', marginLeft: '10px' }} >
           Proposal Overview
-        </Button>
+        </HeaderButton>
       </NavLink>
 
       <Heading as="h1" size="lg" color="primary" style={{ marginBottom: '30px' }}>

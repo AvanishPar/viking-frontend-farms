@@ -4,9 +4,10 @@ import { castVote } from 'utils/alphaGovernor'
 
 interface VoteNowModalProps {
     proposalId?: any
-}
+    onDismiss?:()=>void
+}   
 
-const VoteNowModal: React.FC<VoteNowModalProps> = ({ proposalId }) => {
+const VoteNowModal: React.FC<VoteNowModalProps> = ({ onDismiss,proposalId }) => {
     const handleFavour = async () => {
         await castVote(proposalId, true)
     }
@@ -15,9 +16,8 @@ const VoteNowModal: React.FC<VoteNowModalProps> = ({ proposalId }) => {
         await castVote(proposalId, false)
     }
 
-
     return (
-        <Modal title="Vote"  >
+        <Modal title="Vote"  onDismiss={()=>{onDismiss()}}>
             <Flex>
                 <Button onClick={handleFavour} style={{ marginRight: '10px' }}>Favour</Button>
                 <Button onClick={handleUnFavour}>UnFavour</Button>

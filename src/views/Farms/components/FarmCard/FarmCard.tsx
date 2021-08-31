@@ -151,7 +151,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
                   apy={farm.apy}
                 />
                 {/* {farmAPY}% */}
-                <p> 125% </p>
+                <p> 500% </p>
               </>
             ) : (
               <Skeleton height={24} width={80} />
@@ -164,11 +164,11 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
         <Text bold>VEMP</Text>
       </Flex>
       <Flex justifyContent='space-between'>
-        <Text style={{ fontSize: '24px' }}>{TranslateString(10001, 'MANA')}:</Text>
+        <Text style={{ fontSize: '24px' }}>{TranslateString(10001, 'VEMP')}:</Text>
         <Text bold style={{ margin: 'auto 0' }}>{depositFeeBP}MANA</Text>
       </Flex>
       <CardActionsContainer farm={farm} ethereum={ethereum} account={account} />
-      <Divider />
+   
       <ExpandableSectionButton
         onClick={() => setShowExpandableSection(!showExpandableSection)}
         expanded={showExpandableSection}
