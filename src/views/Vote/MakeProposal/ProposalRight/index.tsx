@@ -24,10 +24,22 @@ const Text = styled('input')`
 `
 const PublishButton = styled(Button)`
 background-color: #27262c !important;
+border: 1px solid #FFFFFF !important;
 `
+const TextField = styled('input')`
+  width:250px;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  font-size:20px;
+  padding:10px;
+  outline:none;
+  margin-bottom:20px;
+`
+
+
 const Row = styled('div')`
   display: flex;
-  justify-content: space-between;
 `
 interface ProposalProps {
   handleContract?: (e) => void
@@ -76,23 +88,33 @@ const ProposalRight: React.FC<ProposalProps> = ({ value, handleContract, handleE
         Action
       </Heading>
       <Row>
-        <div>
+        <div style={{ marginRight: "30px" }}>
           <Label>Start Date</Label><br /><br />
-          <ProposalInput value={date.toLocaleDateString()} readonly="readOnly" />
+          {/* <ProposalInput value={date.toLocaleDateString()} readonly="readOnly" /> */}
+          <TextField value={date.toLocaleDateString()} />
         </div>
         <div>
           <Label>Start Time</Label><br /><br />
-          <ProposalInput value={date.toLocaleTimeString()} readonly="readOnly" />
+          {/* <ProposalInput  value={date.toLocaleTimeString()} readonly="readOnly" /> */}
+          <TextField value={date.toLocaleTimeString()} />
         </div>
       </Row>
-      <Label>Ether Value</Label>
-      <ProposalInput value={value.ether} onChange={(e) => handleEther(e.currentTarget.value)} />
-      <Label>Contract Method</Label>
-      <ProposalInput value={value.contract} onChange={(e) => handleContract(e.currentTarget.value)} />
       <Row>
-        <Label>Creater :- {accountEllipsis}</Label>
+        <div style={{ marginRight: "30px" }}>
+          <Label>Ether Value</Label><br /><br />
+          <TextField value={value.ether} onChange={(e) => handleEther(e.currentTarget.value)} placeholder="Value" />
+          {/* <ProposalInput value={value.ether} onChange={(e) => handleEther(e.currentTarget.value)} /> */}
+        </div>
+        <div>
+          <Label>Contract Method</Label><br /><br />
+          <TextField value={value.contract} onChange={(e) => handleContract(e.currentTarget.value)} placeholder="Method" />
+          {/* <ProposalInput value={value.contract} onChange={(e) => handleContract(e.currentTarget.value)} /> */}
+        </div>
       </Row>
-      <PublishButton disabled={pendingTx} onClick={onPublish} style={{ alignSelf: 'center' }}>
+      <Row>
+        <Label>Creater {accountEllipsis}</Label>
+      </Row>
+      <PublishButton disabled={pendingTx} onClick={onPublish} style={{ alignSelf: 'flex-end' }}>
         Publish
       </PublishButton>
     </Container>

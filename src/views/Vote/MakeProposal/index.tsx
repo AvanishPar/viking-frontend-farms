@@ -21,6 +21,7 @@ const MakeProposalStyle = styled('div')`
 
 const HeaderButton = styled(Button)`
 background-color: #27262c !important;
+border: 1px solid #FFFFFF !important;
 `
 const initialState =
 

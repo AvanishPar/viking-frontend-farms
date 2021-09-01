@@ -17,7 +17,7 @@ const Label = styled('label')`
 
 const TextArea = styled('input')`
   font-size: 20px;
-  text-align: center;
+  text-align: left;
   border: 1px solid gray;
   border-radius: 5px;
   padding: 35px 0px;
@@ -52,7 +52,7 @@ const ProposalLeft: React.FC<proposalProps> = ({ value, handleTitle, handleAddre
         )
       } */}
 
-      <Divider />
+      <Divider style={{ margin: '24px 0px' }} />
     </Container>
   )
 }

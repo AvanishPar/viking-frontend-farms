@@ -4,10 +4,10 @@ import styled from 'styled-components'
 
 const Text = styled('input')`
   font-size: 20px;
-  text-align: center;
+  text-align: left;
   border: 1px solid gray;
   border-radius: 5px;
-  padding: 5px 0px;
+  padding: 10px;
   margin-bottom: 20px;
 `
 

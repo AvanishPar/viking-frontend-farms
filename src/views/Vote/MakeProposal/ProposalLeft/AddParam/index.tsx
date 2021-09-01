@@ -14,15 +14,18 @@ const Label = styled('label')`
   font-size: 20px;
   margin-bottom: 30px;
 `
-const ParamButton= styled(Button)`
-background-color: #27262c !important;
+const ParamButton = styled('span')`
+color:#EAE2FC;
+font-weight:500;
+text-decortion:underline;
+
 `
 const Text = styled('input')`
   font-size: 20px;
   text-align: center;
   border: 1px solid gray;
   border-radius: 5px;
-  padding: 5px 0px;
+  padding: 10px;
   margin-bottom: 30px;
 `
 const Card = styled('div')`
@@ -79,10 +82,10 @@ const ProposalLeftComponent = ({ handleParamChange }) => {
       })}
       <Flex>
 
-        <ParamButton style={{ alignSelf: 'center' }} onClick={() => handleAdd()}>
+        <ParamButton style={{ alignSelf: 'center', textDecoration: "underline", cursor: 'pointer' }} onClick={() => handleAdd()}>
           Add Param
         </ParamButton>
-        <ParamButton style={{ alignSelf: 'center', marginLeft: '10px' }} onClick={(e) => handleRemove(e)}>
+        <ParamButton style={{ alignSelf: 'center', marginLeft: '10px', textDecoration: "underline", cursor: 'pointer' }} onClick={(e) => handleRemove(e)}>
           Remove Param
         </ParamButton>
       </Flex>

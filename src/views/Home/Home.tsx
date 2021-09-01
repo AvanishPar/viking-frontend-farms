@@ -21,7 +21,7 @@ const Hero = styled.div`
   margin-bottom: 32px;
   padding-top: 116px;
   text-align: center;
-
+  font-family: 'Cinzel Decorative', cursive !important;
   ${({ theme }) => theme.mediaQueries.lg} {
     // background-image: url('/images/egg/3.png'), url('/images/egg/3b.png');
     background-position: left center, right center;
