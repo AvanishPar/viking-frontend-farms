@@ -6,7 +6,6 @@ import { Button, Input, Modal, Text } from '@pancakeswap-libs/uikit'
 import { PANCAKE_RABBITS_ADDRESS } from 'config/constants/nfts'
 import { Nft } from 'config/constants/types'
 import useI18n from 'hooks/useI18n'
-import { usePancakeRabbits } from 'hooks/useContract'
 import InfoRow from './InfoRow'
 
 interface TransferNftModalProps {
@@ -43,7 +42,6 @@ const TransferNftModal: React.FC<TransferNftModalProps> = ({ nft, tokenIds, onSu
   const [error, setError] = useState(null)
   const TranslateString = useI18n()
   const { account } = useWallet()
-  const pancakeRabbitsContract = usePancakeRabbits(PANCAKE_RABBITS_ADDRESS)
 
   const handleConfirm = async () => {
     try {
@@ -51,22 +49,6 @@ const TransferNftModal: React.FC<TransferNftModalProps> = ({ nft, tokenIds, onSu
 
       if (!isValidAddress) {
         setError(TranslateString(999, 'Please enter a valid wallet address'))
-      } else {
-        await pancakeRabbitsContract.methods
-          .transferFrom(account, value, tokenIds[0])
-          .send({ from: account })
-          .on('sending', () => {
-            setIsLoading(true)
-          })
-          .on('receipt', () => {
-            onDismiss()
-            onSuccess()
-          })
-          .on('error', () => {
-            console.error(error)
-            setError('Unable to transfer NFT')
-            setIsLoading(false)
-          })
       }
     } catch (err) {
       console.error('Unable to transfer NFT:', err)

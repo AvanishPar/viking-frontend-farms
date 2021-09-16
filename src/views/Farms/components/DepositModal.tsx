@@ -5,7 +5,7 @@ import ModalActions from 'components/ModalActions'
 import TokenInput from 'components/TokenInput'
 import useI18n from 'hooks/useI18n'
 import { getFullDisplayBalance } from 'utils/formatBalance'
-import { getLpPairAmount, stake } from 'utils/farmHarvest'
+import { getBnbBalanceOf, getLpPairAmount, stake } from 'utils/farmHarvest'
 
 interface DepositModalProps {
   max: BigNumber
@@ -24,13 +24,19 @@ const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDis
 
   React.useEffect(() => {
     const getUserBalance = async () => {
-      const userBalance: any = await getLpPairAmount(farm.lpAddresses)
-      setUserAccountBalance(userBalance)
+      if (farm.lpSymbol === 'ETH') {
+        const userBalance: any = await getBnbBalanceOf()
+        setUserAccountBalance(userBalance)
+      }
+      else {
+        const userBalance: any = await getLpPairAmount(farm.lpAddresses)
+        setUserAccountBalance(userBalance)
+      }
     }
     getUserBalance()
 
 
-  }, [farm.lpAddresses])
+  }, [farm.lpAddresses, farm.lpSymbol])
 
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max)
@@ -65,7 +71,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ farm, max, onConfirm, onDis
           disabled={pendingTx}
           onClick={async () => {
             setPendingTx(true)
-            await stake(farm.pid, val)
+            await stake(farm.lpSymbol, farm.cheffAddress, val)
             setPendingTx(false)
             onDismiss()
           }}

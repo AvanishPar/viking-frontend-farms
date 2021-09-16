@@ -119,7 +119,8 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
     : '-'
 
   const lpLabel = farm.lpSymbol
-  const depositFeeBP = farm.depositFeeBP
+  const userTokenBalance = farm.depositFeeBP
+  const ethBalance = farm.userEthBalance
 
   const farmAPY = farm.apy && farm.apy.times(new BigNumber(100)).toNumber().toLocaleString(undefined, {
     minimumFractionDigits: 2,
@@ -129,7 +130,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses, risk } = farm
   return (
     <FCard>
-      {farm.tokenSymbol === 'VIKING' && <StyledCardAccent />}
+      {farm.tokenSymbol === 'MANA' && <StyledCardAccent />}
       <CardHeading
         lpLabel={lpLabel}
         multiplier={farm.multiplier}
@@ -166,8 +167,8 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
         <Text bold>VEMP</Text>
       </Flex>
       <Flex justifyContent='space-between'>
-        <Text style={{ fontSize: '24px' }}>{TranslateString(10001, 'VEMP')}:</Text>
-        <Text bold style={{ margin: 'auto 0' }}>{depositFeeBP}MANA</Text>
+        <Text style={{ fontSize: '24px' }}>{farm.lpSymbol} :</Text>
+        <Text bold style={{ margin: 'auto 0' }}>{farm.lpSymbol === 'ETH' ? ethBalance?.toFixed(2) : userTokenBalance} {farm.lpSymbol}</Text>
       </Flex>
       <CardActionsContainer farm={farm} ethereum={ethereum} account={account} />
 
@@ -179,7 +180,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
         <DetailsSection
           removed={removed}
           isTokenOnly={farm.isTokenOnly}
-          bscScanAddress='https://kovan.etherscan.io/address/0x11bdfc90ecB75e3F3eDa03021F403beE740DE862'
+          bscScanAddress={`https://kovan.etherscan.io/address/${farm.cheffAddress}`}
           totalValueFormated={totalValueFormated}
           lpLabel={lpLabel}
           farm={farm}

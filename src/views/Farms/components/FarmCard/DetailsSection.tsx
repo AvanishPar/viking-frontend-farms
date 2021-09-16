@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Text, Flex, Link, LinkExternal } from '@pancakeswap-libs/uikit'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import { Address } from 'config/constants/types'
+import * as Addresses from 'config/constants/addresses'
 
 export interface ExpandableSectionProps {
   isTokenOnly?: boolean
@@ -37,26 +38,27 @@ const StyledLinkExternal = styled(LinkExternal)`
 `
 
 const DetailsSection: React.FC<ExpandableSectionProps> = ({
-  isTokenOnly,
   farm,
   bscScanAddress,
   removed,
-  totalValueFormated,
   lpLabel,
-  quoteTokenAdresses,
-  quoteTokenSymbol,
-  tokenAddresses,
 }) => {
   const TranslateString = useI18n()
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAdresses, quoteTokenSymbol, tokenAddresses })
 
   return (
     <Wrapper>
       <Flex justifyContent="space-between">
         <Text>{TranslateString(316, 'Stake')}:</Text>
-        <StyledLinkExternal href='https://kovan.etherscan.io/address/0x3e23cf68E78291646B9297AF451896A508DC7dE9'>
-          {lpLabel}
-        </StyledLinkExternal>
+        {
+          farm.lpSymbol === 'ETH' ?
+            (<StyledLinkExternal href={`https://kovan.etherscan.io/address/${Addresses.cheffEth}`}>
+              {lpLabel}
+            </StyledLinkExternal>) :
+            (<StyledLinkExternal href={`https://kovan.etherscan.io/address/${farm.lpAddresses}`}>
+              {lpLabel}
+            </StyledLinkExternal>)
+        }
+
       </Flex>
       {!removed && (
         <Flex justifyContent="space-between">

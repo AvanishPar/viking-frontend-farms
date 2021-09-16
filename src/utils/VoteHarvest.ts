@@ -181,8 +181,6 @@ export const stake = async (pId: number, amount) => {
         return ""
     }
     catch (error) {
-        const errorMessage = error.message;
-        console.log(errorMessage)
         return []
     }
 }
@@ -204,8 +202,6 @@ export const approve = async (lpAddress) => {
         return ""
     }
     catch (error) {
-        const errorMessage = error.message;
-        console.log(errorMessage)
         return ''
     }
 }
@@ -230,8 +226,6 @@ export const withdraw = async (pid, amount) => {
         return ""
     }
     catch (error) {
-        const errorMessage = error.message;
-        console.log(errorMessage)
         return ''
     }
 }

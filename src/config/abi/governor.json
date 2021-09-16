@@ -419,6 +419,32 @@
     },
     {
         "inputs": [],
+        "name": "minxVempForProposal",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "minxVempForVote",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "name",
         "outputs": [
             {
@@ -578,6 +604,32 @@
             }
         ],
         "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_minValue",
+                "type": "uint256"
+            }
+        ],
+        "name": "setMinProposalValue",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_minValue",
+                "type": "uint256"
+            }
+        ],
+        "name": "setMinVoteValue",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {

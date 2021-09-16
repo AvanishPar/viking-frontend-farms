@@ -8,9 +8,10 @@ export interface Farm extends FarmConfig {
   tokenPriceVsQuote?: BigNumber
   poolWeight?: number
   depositFeeBP?: number
-  earnAmountFarm?:number
+  userEthBalance?: number
+  earnAmountFarm?: number
   vikingPerBlock?: number
-    userData?: {
+  userData?: {
     allowance: BigNumber
     tokenBalance: BigNumber
     stakedBalance: BigNumber
@@ -24,9 +25,9 @@ export interface Vote extends VoteConfig {
   tokenPriceVsQuote?: BigNumber
   poolWeight?: number
   depositFeeBP?: number
-  earnAmountFarm?:number
+  earnAmountFarm?: number
   vikingPerBlock?: number
-    userData?: {
+  userData?: {
     allowance: BigNumber
     tokenBalance: BigNumber
     stakedBalance: BigNumber

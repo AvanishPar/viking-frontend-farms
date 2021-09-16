@@ -126,7 +126,7 @@ const VoteCard: React.FC<FarmCardProps> = ({ farm, removed, cakePrice, bnbPrice,
   const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses, risk } = farm
   return (
     <FCard>
-      {farm.tokenSymbol === 'VIKING' && <StyledCardAccent />}
+      {farm.tokenSymbol === 'DDAO' && <StyledCardAccent />}
       <CardHeading
         lpLabel={lpLabel}
         multiplier={farm.multiplier}

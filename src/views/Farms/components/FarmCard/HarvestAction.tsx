@@ -12,6 +12,7 @@ import useStake from '../../../../hooks/useStake'
 interface FarmCardActionsProps {
   earnings?: number
   pid?: number
+  farm?: any
 }
 
 const BalanceAndCompound = styled.div`
@@ -21,7 +22,7 @@ const BalanceAndCompound = styled.div`
   flex-direction: column;
 `
 
-const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
+const HarvestAction: React.FC<FarmCardActionsProps> = ({ farm, earnings, pid }) => {
   const TranslateString = useI18n()
   const [pendingTx, setPendingTx] = useState(false)
   const { onReward } = useHarvest(pid)
@@ -40,7 +41,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
           disabled={earnings === 0 || pendingTx}
           onClick={async () => {
             setPendingTx(true)
-            await stake(pid, 0)
+            await stake(farm.lpSymbol, farm.cheffAddress, 0)
             setPendingTx(false)
           }}
         >

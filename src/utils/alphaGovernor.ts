@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import cheffAbi from '../config/abi/masterchef.json';
 import governorAbi from '../config/abi/governor.json';
 import { getCakeAddress, getMasterChefAddress } from "./addressHelpers";
-import Address from '../config/constants/addresses'
+import * as Address from '../config/constants/addresses'
 
 
 

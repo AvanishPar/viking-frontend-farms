@@ -13,6 +13,8 @@ import { useApprove } from 'hooks/useApprove'
 import useUserAccount from 'hooks/useUserAccount'
 import StakeAction from './StakeAction'
 import HarvestAction from './HarvestAction'
+import TokenAction from './TokenAction'
+import AxsAction from './AxsAction'
 
 const Action = styled.div`
   padding-top: 16px;
@@ -38,16 +40,23 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
   const tokenAddress = tokenAddresses[process.env.REACT_APP_CHAIN_ID];
   const [approveAllowance, setApproveAllowance] = React.useState<number>(0)
   const lpName = farm.lpSymbol.toUpperCase()
-  const isApproved = approveAllowance > 1
+  // const isApproved =  approveAllowance > 1
+
+  const isApproved = () => {
+    if (farm?.lpSymbol === 'ETH') {
+      return true
+    }
+    return (approveAllowance > 1)
+  }
 
   React.useEffect(() => {
     const onAllowance = async () => {
-      const isAllowance: any = await getAllowances(farm.lpAddresses)
+      const isAllowance: any = await getAllowances(farm.lpAddresses, farm.cheffAddress)
 
       setApproveAllowance(isAllowance)
     }
     onAllowance()
-  }, [farm.lpAddresses, requestedApproval])
+  }, [farm.cheffAddress, farm.lpAddresses, requestedApproval])
 
   const lpContract = useMemo(() => {
     if (isTokenOnly) {
@@ -61,15 +70,15 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true)
-      await approve(lpAddresses)
+      await approve(lpAddresses, farm.cheffAddress)
       setRequestedApproval(false)
     } catch (e) {
       console.error(e)
     }
-  }, [lpAddresses])
+  }, [farm.cheffAddress, lpAddresses])
 
   const renderApprovalOrStakeButton = () => {
-    return isApproved ? (
+    return isApproved() ? (
       <StakeAction stakedBalance={stakedBalance} farm={farm} tokenBalance={tokenBalance} tokenName={lpName} pid={pid} depositFeeBP={depositFeeBP} />
     ) : (
       <Button mt="8px" fullWidth disabled={requestedApproval} onClick={handleApprove}>
@@ -88,7 +97,35 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
           {TranslateString(999, 'Earned')}
         </Text>
       </Flex>
-      <HarvestAction earnings={farm?.earnAmountFarm} pid={farm?.pid} />
+      <HarvestAction farm={farm} earnings={farm?.earnAmountFarm} pid={farm?.pid} />
+
+      <Flex>
+        <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
+          {lpName}
+        </Text>
+        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
+          {TranslateString(999, 'Earned')}
+        </Text>
+      </Flex>
+      <TokenAction farm={farm} pid={farm?.pid} />
+
+      {
+        farm.lpSymbol === 'AXS' ? (
+          <>
+            <Flex>
+              <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
+                SLP
+              </Text>
+              <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
+                {TranslateString(999, 'Earned')}
+              </Text>
+            </Flex>
+            <AxsAction farm={farm} pid={farm?.pid} />
+          </>
+        ) : (
+          <></>
+        )
+      }
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
           {lpName}
@@ -97,6 +134,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum }) => {
           {TranslateString(999, 'Staked')}
         </Text>
       </Flex>
+
       {!account ? <UnlockButton mt="8px" fullWidth /> : renderApprovalOrStakeButton()}
     </Action>
   )

@@ -1,4 +1,4 @@
-import addresses from 'config/constants/addresses'
+import * as addresses from 'config/constants/addresses'
 
 
 export const getCakeAddress = () => {
@@ -6,6 +6,9 @@ export const getCakeAddress = () => {
 }
 export const getMasterChefAddress = () => {
   return addresses.masterChef
+}
+export const getMasterChefAddressMana = () => {
+  return addresses.masterChefMana
 }
 export const getMasterChefAddressVemp = () => {
   return addresses.masterChefVemp

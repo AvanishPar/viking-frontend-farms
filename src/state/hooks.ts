@@ -12,6 +12,9 @@ export const useFetchPublicData = () => {
   const dispatch = useDispatch()
   const { slowRefresh } = useRefresh()
   useEffect(() => {
+    // dispatch(fetchFarmsPublicDataAsync())
+    // dispatch(fetchVotePublicDataAsync())
+
     setInterval(() => { dispatch(fetchFarmsPublicDataAsync()) }, 5000)
     setInterval(() => { dispatch(fetchVotePublicDataAsync()) }, 5000)
   }, [dispatch, slowRefresh])

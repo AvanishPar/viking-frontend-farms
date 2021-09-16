@@ -8,7 +8,7 @@ const votes: VoteConfig[] = [
     lpSymbol: 'Stake into DDAO',
     lpAddresses: '0x3d8DAa0C319623Df0f80aaA832ecf539096E9dd0',
 
-    tokenSymbol: 'VIKING',
+    tokenSymbol: 'DDAO',
     tokenAddresses: {
       97: '',
       56: '0x896eDE222D3f7f3414e136a2791BDB08AAa25Ce0',
